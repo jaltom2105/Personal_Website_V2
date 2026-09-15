@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Assisted Portfolio Development | Jake Altom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="nav-item">
+                <a href="projects.html" class="active">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html">Resume</a>
+            <a href="experiments.html">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="reveal">
+            <div class="project-header">
+                <p class="tagline">Interactive Systems & AI Design</p>
+                <h1 style="font-size: clamp(2rem, 8vw, 4rem);">AI-Assisted Portfolio Development</h1>
+            </div>
+
+            <div class="project-meta">
+                <div class="project-meta-item">
+                    <p class="info-label">Role</p>
+                    <p>Lead Developer & Prompt Engineer</p>
+                </div>
+                <div class="project-meta-item">
+                    <p class="info-label">Period</p>
+                    <p>Spring 2024</p>
+                </div>
+                <div class="project-meta-item">
+                    <p class="info-label">Platform</p>
+                    <p>Google AI Studio Build</p>
+                </div>
+            </div>
+
+
+
+            <div class="project-content">
+                <div>
+                    <h3 style="margin-bottom: 1rem;">The Process</h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        This website started as a way to practice building a professional portfolio using AI as a coding partner. Instead of writing every line of code myself, I used Google AI Studio to describe the layout, design, and features I wanted, then refined the results through iteration.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        Since it started, the project has grown from a simple static site into a more interactive portfolio with a dedicated "lab" for experiments and a sitewide dark mode system.
+                    </p>
+                    
+                    <h3 style="margin-bottom: 1rem;">Recent Additions</h3>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 0.8rem;">
+                            <strong>The Laboratory Concept:</strong> Implemented a modular "Experiments" grid that acts as a sandbox for high-interaction prototypes. 
+                        </li>
+                        <li style="margin-bottom: 0.8rem;">
+                            <strong>Interactive Simulation:</strong> Developed <em>Sky Hopper</em>, a custom-built arcade experience using Canvas API designed through purely descriptive prompting.
+                        </li>
+                        <li style="margin-bottom: 0.8rem;">
+                            <strong>Reactive Design Logic:</strong> Engineered a site-wide Dark/Light mode system with persistent state, integrated into a unified CSS variable architecture.
+                        </li>
+                        <li style="margin-bottom: 0.8rem;">
+                            <strong>Human-Centric Navigation:</strong> Refined the information architecture, introducing hierarchical dropdowns and optimized user flows (e.g., the Resume and Lab transitions).
+                        </li>
+                    </ul>
+
+                    <h3 style="margin-bottom: 1rem;">Adversarial UI Testing</h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        One of the most unique aspects of this project is the exploration of "Forbidden UI", the <em>Don't Click Me</em> experiment. This module tests human curiosity through cautionary visual cues, utilizing immediate browser-level termination commands as a high-stakes interaction model.
+                    </p>
+                </div>
+                
+                <aside>
+                    <div style="background-color: var(--accent-color); padding: 2rem; border: var(--border-width) solid var(--primary-color);">
+                        <h4 style="margin-bottom: 1rem;">Development Insights</h4>
+                        <div style="padding: 0.5rem; background-color: var(--primary-color); color: var(--secondary-color); text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 1rem;">LIVE PROJECT</div>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary);">
+                            This portfolio is built using a "Human-in-the-Loop" methodology. Every component was generated through natural language context and verified by my specific design requirements.
+                        </p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <ul style="list-style: none;">
+                <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

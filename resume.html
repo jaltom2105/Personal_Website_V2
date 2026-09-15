@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume | Jake Altom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="nav-item">
+                <a href="projects.html">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html" class="active">Resume</a>
+            <a href="experiments.html">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="reveal">
+            <div class="section-header">
+                <h2>Curriculum Vitae</h2>
+            </div>
+            
+            <p style="margin-bottom: 2rem;">
+                Download or view my full professional experience below. This resume highlights my academic background at Purdue University, professional leadership roles, and technical work in Artificial Intelligence and Behavioral Psychology.
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; align-items: center;">
+                <a href="resume_latest.jpg" download="Jake_Altom_Resume.png" class="btn btn-filled" id="resume-download-btn">
+                    <i data-lucide="download" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"></i>
+                    Download Resume
+                </a>
+                <a href="https://drive.google.com/file/d/1Z22YvBKupN-w7qFuol7mgz1jgQB6BrPs/view?usp=sharing" class="btn" target="_blank" id="resume-drive-btn">
+                    <i data-lucide="external-link" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"></i>
+                    Open in Google Drive
+                </a>
+                <a href="https://linkedin.com/in/jake-altom" class="btn" target="_blank">
+                    <i data-lucide="linkedin" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"></i>
+                    LinkedIn
+                </a>
+                <a href="https://github.com/jaltom2105" class="btn" target="_blank">
+                    <i data-lucide="github" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"></i>
+                    GitHub
+                </a>
+            </div>
+
+            <!-- Document Scan Preview -->
+            <div class="resume-wrapper" style="border: var(--border-width) solid var(--primary-color); background: #ffffff; margin-top: 1rem; height: auto; display: flex; align-items: start; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <img src="resume_latest.jpg" alt="Jake Altom Resume" style="width: 100%; height: auto; display: block;" onerror="this.src='https://drive.google.com/thumbnail?id=1Z22YvBKupN-w7qFuol7mgz1jgQB6BrPs&sz=s2000';" referrerPolicy="no-referrer">
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+            <p style="margin-top: 0.35rem;"><a href="tel:908-963-5312" style="color: var(--text-primary); text-decoration: none;">(908) 963-5312</a></p>
+            <p style="margin-top: 0.35rem; font-size: 0.85rem; color: var(--text-secondary);">Whitehouse Station, NJ</p>
+            <div style="margin-top: 0.75rem; display: flex; gap: 1rem;">
+                <a href="https://linkedin.com/in/jake-altom" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="linkedin" style="width: 15px; height: 15px;"></i> LinkedIn</a>
+                <a href="https://github.com/jaltom2105" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="github" style="width: 15px; height: 15px;"></i> GitHub</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <ul style="list-style: none;">
+                <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                <li><a href="projects.html" style="color: var(--text-primary); text-decoration: none;">Projects</a></li>
+                <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+            </ul>
+        </div>
+    </footer>
+    
+    <!-- Jake the Tinkerer Sprite -->
+    <div class="tinkerer-container">
+        <div class="tinkerer-bubble">Optimizing document transmission...</div>
+        <i data-lucide="wrench" class="gear-icon"></i>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

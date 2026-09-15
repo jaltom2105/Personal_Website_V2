@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL_ERROR | Jake Altom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --danger: #ff3e3e;
+            --black: #0a0a0a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            color: var(--danger);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            border: 5px solid var(--danger);
+            position: relative;
+            background: rgba(255, 62, 62, 0.05);
+            box-shadow: 0 0 50px rgba(255, 62, 62, 0.2);
+        }
+
+        .warning-strip {
+            background: var(--danger);
+            color: var(--black);
+            padding: 0.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .top { top: 0; }
+        .bottom { bottom: 0; }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .big-red-button {
+            width: 200px;
+            height: 200px;
+            background: var(--danger);
+            border: 10px solid #8B0000;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 15px 0 #8B0000, 0 20px 40px rgba(0,0,0,0.5);
+            transition: all 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .big-red-button:active {
+            transform: translateY(10px);
+            box-shadow: 0 5px 0 #8B0000, 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .big-red-button::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        .big-red-button:hover {
+            animation: jitter 0.1s infinite alternate;
+        }
+
+        @keyframes jitter {
+            0% { transform: translate(1px, 1px); }
+            100% { transform: translate(-1px, -1px); }
+        }
+
+        .status {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        #shutdown-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .glitch-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="warning-strip top">CRITICAL_WARNING // DO_NOT_ENGAGE</div>
+    
+    <a href="experiments.html" style="position: fixed; top: 3rem; left: 2rem; color: var(--danger); text-decoration: none; font-size: 0.8rem; z-index: 20; border-bottom: 2px solid var(--danger);">> BACK_TO_LAB</a>
+
+    <div class="container">
+        <h1>SYSTEM_TERMINAL</h1>
+        <p>PROTOCOL_ERROR: UNAUTHORIZED ACCESS DETECTED</p>
+        
+        <div class="big-red-button" id="the-button">
+            <span style="color: white; font-weight: 900; font-size: 1.2rem; transform: rotate(-5deg);">STOP</span>
+        </div>
+
+        <p style="margin-top: 1.5rem; font-size: 0.9rem;">
+            WARNING: PRESSING THIS BUTTON WILL INITIATE<br>
+            A HARD SYSTEM DISCONNECT.
+        </p>
+
+        <div class="status" id="status-msg">> Waiting for user conflict...</div>
+    </div>
+
+    <div class="warning-strip bottom">CRITICAL_WARNING // DO_NOT_ENGAGE</div>
+
+    <script>
+        const btn = document.getElementById('the-button');
+
+        btn.addEventListener('click', () => {
+            window.close();
+        });
+    </script>
+</body>
+</html>

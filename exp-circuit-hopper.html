@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKY_HOPPER | Jake Altom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --sky-top: #a5f3fc;
+            --sky-bottom: #e0f2fe;
+            --cloud: #ffffff;
+            --accent: #fbbf24; /* Amber */
+            --text: #0c4a6e;
+            --font: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom));
+            color: var(--text);
+            font-family: var(--font);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .back-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--text);
+            border-radius: 99px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: var(--text);
+            color: white;
+        }
+
+        #game-container {
+            flex-grow: 1;
+            position: relative;
+            outline: none;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #ui {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            pointer-events: none;
+        }
+
+        .score-val {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            text-align: center;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: var(--text);
+            border: none;
+            padding: 1.2rem 3rem;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 99px;
+            cursor: pointer;
+            margin-top: 2rem;
+            box-shadow: 0 10px 0 #b45309;
+            transition: all 0.1s;
+        }
+
+        .btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #b45309;
+        }
+
+        .hint {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-top: 1.5rem;
+            font-weight: 500;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body onclick="handleClick()" onkeydown="handleKey(event)">
+    <header>
+        <div style="font-size: 0.9rem; font-weight: 800; letter-spacing: 1px;">PROJECT // SKY_HOPPER</div>
+        <a href="experiments.html" class="back-link">Return to Lab</a>
+    </header>
+
+    <div id="game-container">
+        <canvas id="canvas"></canvas>
+        <div id="ui">
+            <div style="font-size: 0.7rem; font-weight: 800; opacity: 0.6; text-transform: uppercase;">Distance</div>
+            <div class="score-val" id="score">0</div>
+        </div>
+
+        <div id="overlay">
+            <h1 id="title" class="floating" style="font-size: 4rem; margin: 0; font-weight: 900; letter-spacing: -2px;">SKY_HOPPER</h1>
+            <p id="msg" style="max-width: 400px; opacity: 0.8; margin-top: 1rem; font-size: 1.1rem;">Tap to keep the little cloud friend drifting through the columns!</p>
+            <button class="btn" id="action-btn" onclick="startGame(event)">BEGIN JOURNEY</button>
+            <div class="hint">[SPACE_BAR] OR [CLICK] TO FLY</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('game-container');
+        const scoreEl = document.getElementById('score');
+        const overlay = document.getElementById('overlay');
+        const title = document.getElementById('title');
+        const msg = document.getElementById('msg');
+        const actionBtn = document.getElementById('action-btn');
+
+        // Game State
+        let gameActive = false;
+        let score = 0;
+        let bird = { x: 100, y: 0, v: 0, size: 25, rot: 0 };
+        let pipes = [];
+        let particles = [];
+        let frame = 0;
+        
+        // Revised Physics
+        const gravity = 0.12;      // Ultra-light
+        const jump = -3.8;         // Gentle jump
+        const pipeWidth = 80;
+        const pipeGap = 240;        // Very wide
+        const pipeSpacing = 150;    // More distance between columns
+        const speed = 2.2;         // Relaxed pace
+
+        function resize() {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            if(!gameActive) bird.y = canvas.height / 2;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function handleClick() {
+            if (gameActive) bird.v = jump;
+        }
+
+        function handleKey(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (gameActive) bird.v = jump;
+                else if (overlay.style.display !== 'none') startGame(e);
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if(e.code === "Space" && e.target === document.body) {
+                e.preventDefault();
+            }
+        });
+
+        function startGame(e) {
+            if (e) e.stopPropagation();
+            score = 0;
+            scoreEl.innerText = '0';
+            bird = { x: 150, y: canvas.height/2, v: 0, size: 25, rot: 0 };
+            pipes = [];
+            particles = [];
+            frame = 0;
+            gameActive = true;
+            overlay.style.display = 'none';
+            requestAnimationFrame(update);
+        }
+
+        function endGame() {
+            gameActive = false;
+            overlay.style.display = 'flex';
+            title.innerText = 'OOPS!';
+            title.style.fontSize = '5rem';
+            msg.innerText = `You drifted ${score} columns far!`;
+            actionBtn.innerText = 'TRY AGAIN';
+        }
+
+        // Draw cloud-like bird
+        function drawBird() {
+            ctx.save();
+            ctx.translate(bird.x, bird.y);
+            
+            // Rotation based on velocity
+            bird.rot = Math.min(Math.PI/4, Math.max(-Math.PI/4, bird.v * 0.1));
+            ctx.rotate(bird.rot);
+
+            // Cloud Body
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(0, 0, bird.size * 0.6, 0, Math.PI * 2);
+            ctx.arc(10, -5, bird.size * 0.4, 0, Math.PI * 2);
+            ctx.arc(-10, -5, bird.size * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eyes
+            ctx.fillStyle = '#0c4a6e';
+            ctx.beginPath();
+            ctx.arc(5, -2, 2, 0, Math.PI * 2);
+            ctx.arc(15, -2, 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Blush
+            ctx.fillStyle = '#fda4af';
+            ctx.beginPath();
+            ctx.arc(5, 3, 3, 0, Math.PI * 2);
+            ctx.arc(15, 3, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function update() {
+            if (!gameActive) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Physics
+            bird.v += gravity;
+            bird.y += bird.v;
+
+            if (bird.y < 0 || bird.y + bird.size > canvas.height) {
+                endGame();
+                return;
+            }
+
+            // Spawn pipes
+            if (frame % pipeSpacing === 0) {
+                const h = 100 + Math.random() * (canvas.height - 200 - pipeGap);
+                pipes.push({ x: canvas.width, top: h, scored: false });
+            }
+
+            // Draw pipes (as pillars or trees)
+            pipes.forEach((p) => {
+                p.x -= speed;
+                
+                ctx.fillStyle = '#bae6fd';
+                ctx.strokeStyle = '#0ea5e9';
+                ctx.lineWidth = 4;
+                ctx.lineJoin = 'round';
+                
+                // Top Column
+                roundRect(ctx, p.x, -20, pipeWidth, p.top + 20, 10, true, true);
+                
+                // Bottom Column
+                const bottomStart = p.top + pipeGap;
+                roundRect(ctx, p.x, bottomStart, pipeWidth, canvas.height - bottomStart + 20, 10, true, true);
+
+                // Collision
+                const bx = bird.x - 5;
+                const bw = bird.size + 10;
+                if (bx + bw > p.x && bx < p.x + pipeWidth) {
+                    if (bird.y - 10 < p.top || bird.y + 10 > bottomStart) {
+                        endGame();
+                    }
+                }
+
+                if (!p.scored && bird.x > p.x + pipeWidth) {
+                    p.scored = true;
+                    score++;
+                    scoreEl.innerText = score;
+                }
+            });
+
+            pipes = pipes.filter(p => p.x + pipeWidth > 0);
+
+            drawBird();
+
+            frame++;
+            requestAnimationFrame(update);
+        }
+
+        function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            if (fill) ctx.fill();
+            if (stroke) ctx.stroke();
+        }
+
+    </script>
+</body>
+</html>

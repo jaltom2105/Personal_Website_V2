@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOTO_BOOTH | Jake Altom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --surface-color: #161a20;
+            --surface-border: #262c36;
+            --accent-red: #ff3e3e;
+            --accent-yellow: #f59e0b;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --text-main: #f3f4f6;
+            --text-dim: #9ca3af;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            padding: 0.85rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface-color);
+            border-bottom: 2px solid var(--surface-border);
+            z-index: 50;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.2rem 0.6rem;
+            background: rgba(255, 62, 62, 0.15);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .header-badge.live {
+            animation: blink 2s infinite ease-in-out;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .back-btn {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.45rem 0.9rem;
+            border: 1px solid var(--surface-border);
+            background: var(--surface-color);
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: var(--text-main);
+            background: #202630;
+        }
+
+        /* Main Workspace */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.25rem;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Viewport Stage */
+        .stage-container {
+            position: relative;
+            width: 100%;
+            max-width: 820px;
+            aspect-ratio: 4 / 3;
+            background: #000;
+            border-radius: 12px;
+            border: 2px solid var(--surface-border);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #camera-canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scaleX(-1); /* mirror effect like a real photo booth */
+        }
+
+        #hidden-video {
+            display: none;
+        }
+
+        /* Countdown Overlay */
+        #countdown-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+            pointer-events: none;
+        }
+
+        .countdown-number {
+            font-family: var(--font-mono);
+            font-size: 7rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 62, 62, 0.8), 0 0 60px rgba(255, 255, 255, 0.5);
+            animation: countPop 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+        }
+
+        @keyframes countPop {
+            0% { transform: scale(0.6); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        /* Shutter Flash */
+        #flash-overlay {
+            position: absolute;
+            inset: 0;
+            background: #ffffff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 40;
+            transition: opacity 0.35s ease-out;
+        }
+
+        #flash-overlay.active {
+            opacity: 1;
+            transition: none;
+        }
+
+        /* Fallback / Permission Notice */
+        #camera-prompt {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(13, 15, 18, 0.95);
+            z-index: 20;
+            gap: 1rem;
+        }
+
+        .prompt-btn {
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+
+        .prompt-btn:hover {
+            transform: scale(1.03);
+            opacity: 0.95;
+        }
+
+        .prompt-btn.secondary {
+            background: #2a313d;
+            border: 1px solid var(--surface-border);
+        }
+
+        /* Control Bar */
+        .controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 820px;
+        }
+
+        .shutter-btn {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            border: 4px solid #fff;
+            box-shadow: 0 0 20px rgba(255, 62, 62, 0.4), inset 0 2px 4px rgba(255,255,255,0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        .shutter-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 30px rgba(255, 62, 62, 0.6);
+        }
+
+        .shutter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-tool-btn {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-main);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .action-tool-btn:hover {
+            background: #202732;
+            border-color: var(--text-dim);
+        }
+
+        /* Filter Selector Tray */
+        .filter-shelf {
+            width: 100%;
+            max-width: 820px;
+            background: var(--surface-color);
+            border: 2px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .filter-shelf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .filter-pill {
+            background: var(--bg-color);
+            border: 2px solid var(--surface-border);
+            color: var(--text-dim);
+            padding: 0.6rem 0.4rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .filter-pill:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-main);
+        }
+
+        .filter-pill.active {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .filter-icon-preview {
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+        }
+
+        /* Gallery Filmstrip */
+        .filmstrip-container {
+            width: 100%;
+            max-width: 820px;
+            background: var(--surface-color);
+            border: 2px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .filmstrip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .filmstrip-scroll {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            min-height: 100px;
+            align-items: center;
+        }
+
+        .filmstrip-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .filmstrip-scroll::-webkit-scrollbar-thumb {
+            background: var(--surface-border);
+            border-radius: 3px;
+        }
+
+        .photo-card {
+            flex-shrink: 0;
+            width: 120px;
+            height: 90px;
+            background: #000;
+            border-radius: 6px;
+            border: 2px solid var(--surface-border);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--text-main);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-card-actions {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .photo-card:hover .photo-card-actions {
+            opacity: 1;
+        }
+
+        .card-action-btn {
+            background: #fff;
+            border: none;
+            color: #000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .card-action-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .empty-gallery {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-align: center;
+            width: 100%;
+            padding: 1.5rem;
+        }
+
+        /* Modal Preview */
+        #photo-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: var(--surface-color);
+            border: 2px solid var(--surface-border);
+            border-radius: 12px;
+            max-width: 680px;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .modal-img-wrapper {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .modal-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <i data-lucide="camera" style="color: var(--accent-red);"></i>
+            <span>PHOTO_BOOTH_LAB</span>
+            <span class="header-badge live" id="live-badge">
+                <i data-lucide="disc" style="width: 10px; height: 10px;"></i> LIVE
+            </span>
+        </div>
+        <a href="experiments.html" class="back-btn">
+            <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i> EXIT_LAB
+        </a>
+    </header>
+
+    <main>
+        <!-- Stage / Live Viewport -->
+        <div class="stage-container" id="stage">
+            <video id="hidden-video" autoplay playsinline muted></video>
+            <canvas id="camera-canvas" width="640" height="480"></canvas>
+
+            <!-- 3-2-1 Countdown Overlay -->
+            <div id="countdown-overlay">
+                <div class="countdown-number" id="countdown-text">3</div>
+            </div>
+
+            <!-- Shutter Flash -->
+            <div id="flash-overlay"></div>
+
+            <!-- Camera Start / Permission Prompt -->
+            <div id="camera-prompt">
+                <i data-lucide="webcam" style="width: 48px; height: 48px; color: var(--accent-red);"></i>
+                <h3 style="font-size: 1.25rem; font-weight: 700;">Connect Your Camera</h3>
+                <p style="color: var(--text-dim); max-width: 380px; font-size: 0.9rem; line-height: 1.5;">
+                    Experience real-time interactive computer vision filters inspired by the classic macOS Photo Booth.
+                </p>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+                    <button class="prompt-btn" id="start-cam-btn">
+                        <i data-lucide="camera" style="width: 16px; height: 16px;"></i> Enable Camera
+                    </button>
+                    <button class="prompt-btn secondary" id="start-demo-btn">
+                        <i data-lucide="play" style="width: 16px; height: 16px;"></i> Launch Simulation Mode
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shutter & Controls -->
+        <div class="controls-bar">
+            <button class="action-tool-btn" id="mirror-btn" title="Toggle Mirror">
+                <i data-lucide="flip-horizontal" style="width: 16px; height: 16px;"></i> Mirror
+            </button>
+            <button class="shutter-btn" id="shutter-btn" title="Snap Photo (Spacebar)">
+                <i data-lucide="camera" style="width: 28px; height: 28px;"></i>
+            </button>
+            <button class="action-tool-btn" id="burst-toggle-btn" title="3-Second Timer">
+                <i data-lucide="timer" style="width: 16px; height: 16px;"></i> <span id="timer-label">3s Timer: ON</span>
+            </button>
+        </div>
+
+        <!-- Filter Selector Shelf -->
+        <div class="filter-shelf">
+            <div class="filter-shelf-header">
+                <span>Select Vision Filter</span>
+                <span id="current-filter-name" style="color: var(--accent-cyan); font-weight: 700;">NORMAL</span>
+            </div>
+            <div class="filter-grid" id="filter-grid">
+                <!-- Buttons injected by JS -->
+            </div>
+        </div>
+
+        <!-- Saved Filmstrip -->
+        <div class="filmstrip-container">
+            <div class="filmstrip-header">
+                <span><i data-lucide="film" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;"></i> PHOTO REEL (<span id="photo-count">0</span>)</span>
+                <button class="action-tool-btn" id="clear-reel-btn" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">
+                    Clear Reel
+                </button>
+            </div>
+            <div class="filmstrip-scroll" id="filmstrip">
+                <div class="empty-gallery">No photos taken yet. Hit the red shutter button!</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Photo Modal -->
+    <div id="photo-modal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                <span style="font-family: var(--font-mono); font-size: 0.85rem;" id="modal-timestamp">SNAPSHOT</span>
+                <button class="card-action-btn" id="modal-close-btn"><i data-lucide="x" style="width: 16px; height: 16px;"></i></button>
+            </div>
+            <div class="modal-img-wrapper">
+                <img id="modal-img" src="" alt="Captured Snapshot">
+            </div>
+            <div class="modal-actions">
+                <a id="modal-download-btn" class="prompt-btn" download="photo_booth_snapshot.jpg" href="#">
+                    <i data-lucide="download" style="width: 16px; height: 16px;"></i> Download Photo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filters definition
+        const FILTERS = [
+            { id: 'normal', name: 'Normal', icon: 'eye' },
+            { id: 'thermal', name: 'Thermal Heat', icon: 'flame' },
+            { id: 'warhol', name: 'Andy Warhol', icon: 'grid' },
+            { id: 'fisheye', name: 'Fisheye Bulge', icon: 'circle-dot' },
+            { id: 'squeeze', name: 'Alien Warp', icon: 'smile' },
+            { id: 'cyberpunk', name: 'Cyber Matrix', icon: 'terminal' },
+            { id: 'noir', name: 'Noir 1920', icon: 'contrast' },
+            { id: 'pixel', name: '8-Bit Retro', icon: 'box' },
+            { id: 'edges', name: 'Sobel Scanner', icon: 'scan' },
+            { id: 'invert', name: 'X-Ray Neg', icon: 'sun-medium' }
+        ];
+
+        let activeFilter = 'normal';
+        let isMirror = true;
+        let timerEnabled = true;
+        let stream = null;
+        let isSimulated = false;
+        let animationFrameId = null;
+        let capturedPhotos = [];
+
+        // Elements
+        const video = document.getElementById('hidden-video');
+        const canvas = document.getElementById('camera-canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const cameraPrompt = document.getElementById('camera-prompt');
+        const startCamBtn = document.getElementById('start-cam-btn');
+        const startDemoBtn = document.getElementById('start-demo-btn');
+        const shutterBtn = document.getElementById('shutter-btn');
+        const countdownOverlay = document.getElementById('countdown-overlay');
+        const countdownText = document.getElementById('countdown-text');
+        const flashOverlay = document.getElementById('flash-overlay');
+        const mirrorBtn = document.getElementById('mirror-btn');
+        const burstToggleBtn = document.getElementById('burst-toggle-btn');
+        const timerLabel = document.getElementById('timer-label');
+        const filterGrid = document.getElementById('filter-grid');
+        const currentFilterName = document.getElementById('current-filter-name');
+        const filmstrip = document.getElementById('filmstrip');
+        const photoCount = document.getElementById('photo-count');
+        const clearReelBtn = document.getElementById('clear-reel-btn');
+        const photoModal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalDownloadBtn = document.getElementById('modal-download-btn');
+        const modalTimestamp = document.getElementById('modal-timestamp');
+
+        // Web Audio Synthesizer for Camera Sound Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(freq = 880, duration = 0.08) {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function playShutterSound() {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                // Mechanical click 1
+                playBeep(400, 0.04);
+                setTimeout(() => {
+                    playBeep(900, 0.06);
+                }, 60);
+                setTimeout(() => {
+                    playBeep(220, 0.08);
+                }, 130);
+            } catch (e) {}
+        }
+
+        // Build Filter Shelf
+        function buildFilters() {
+            filterGrid.innerHTML = '';
+            FILTERS.forEach(f => {
+                const btn = document.createElement('button');
+                btn.className = `filter-pill ${f.id === activeFilter ? 'active' : ''}`;
+                btn.innerHTML = `<i data-lucide="${f.icon}"></i><span>${f.name}</span>`;
+                btn.onclick = () => {
+                    activeFilter = f.id;
+                    currentFilterName.textContent = f.name.toUpperCase();
+                    document.querySelectorAll('.filter-pill').forEach(el => el.classList.remove('active'));
+                    btn.classList.add('active');
+                };
+                filterGrid.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        // Camera Initialization
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    },
+                    audio: false
+                });
+                video.srcObject = stream;
+                await video.play();
+                isSimulated = false;
+                cameraPrompt.style.display = 'none';
+                startRenderLoop();
+            } catch (err) {
+                console.warn('Camera access issue:', err);
+                alert('Camera permission was not granted or webcam not detected. Launching Simulation Mode so you can still try all filters!');
+                startSimulation();
+            }
+        }
+
+        // Simulation Mode (Interactive generative face/avatar)
+        let simTime = 0;
+        function startSimulation() {
+            isSimulated = true;
+            cameraPrompt.style.display = 'none';
+            startRenderLoop();
+        }
+
+        startCamBtn.onclick = startCamera;
+        startDemoBtn.onclick = startSimulation;
+
+        // Render Loop
+        function startRenderLoop() {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            function render() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                if (isSimulated) {
+                    renderSimulationFrame(w, h);
+                } else if (video.readyState >= 2) {
+                    ctx.drawImage(video, 0, 0, w, h);
+                }
+
+                // Apply Active Filter in realtime
+                applyFilter(activeFilter, w, h);
+
+                animationFrameId = requestAnimationFrame(render);
+            }
+            render();
+        }
+
+        // Generative Avatar Simulation for preview when no camera is present
+        function renderSimulationFrame(w, h) {
+            simTime += 0.03;
+            // Background gradient
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#1e293b');
+            grad.addColorStop(1, '#0f172a');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Floating animated tech grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < w; x += 40) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+            }
+            for (let y = 0; y < h; y += 40) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+            }
+
+            // Animated Simulated Face / Avatar
+            const cx = w / 2 + Math.sin(simTime * 0.7) * 20;
+            const cy = h / 2 + Math.cos(simTime * 0.9) * 15;
+
+            // Head
+            ctx.fillStyle = '#fed7aa';
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, 90, 120, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Hair / Beanie
+            ctx.fillStyle = '#047857'; // Jets green beanie
+            ctx.beginPath();
+            ctx.ellipse(cx, cy - 70, 95, 60, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Beanie Pom-Pom
+            ctx.fillStyle = '#ecfdf5';
+            ctx.beginPath();
+            ctx.arc(cx, cy - 130, 24, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eyes
+            const eyeBlink = Math.sin(simTime * 1.5) > 0.95 ? 2 : 12;
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath();
+            ctx.ellipse(cx - 32, cy - 10, 10, eyeBlink, 0, 0, Math.PI * 2);
+            ctx.ellipse(cx + 32, cy - 10, 10, eyeBlink, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Smile
+            ctx.strokeStyle = '#991b1b';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(cx, cy + 35, 30, 0.2, Math.PI - 0.2, false);
+            ctx.stroke();
+
+            // Text overlay
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.font = '12px "JetBrains Mono"';
+            ctx.fillText('SIMULATION FEED [CONNECT WEBCAM FOR LIVE VIDEO]', 20, 30);
+        }
+
+        // Image Processing Filters
+        function applyFilter(type, w, h) {
+            if (type === 'normal') return;
+
+            // Distortion Filters (Fisheye & Squeeze)
+            if (type === 'fisheye' || type === 'squeeze') {
+                applyDistortion(type, w, h);
+                return;
+            }
+
+            // Andy Warhol 4-Quadrant Pop-Art Filter
+            if (type === 'warhol') {
+                applyWarhol(w, h);
+                return;
+            }
+
+            // Pixel Manipulation Filters
+            const imgData = ctx.getImageData(0, 0, w, h);
+            const data = imgData.data;
+
+            if (type === 'thermal') {
+                for (let i = 0; i < data.length; i += 4) {
+                    const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                    const t = lum / 255;
+                    // Thermal gradient map: Black -> Blue -> Cyan -> Yellow -> Red -> White
+                    let r = 0, g = 0, b = 0;
+                    if (t < 0.25) {
+                        b = t * 4 * 255;
+                    } else if (t < 0.5) {
+                        g = (t - 0.25) * 4 * 255;
+                        b = 255;
+                    } else if (t < 0.75) {
+                        r = (t - 0.5) * 4 * 255;
+                        g = 255;
+                        b = 255 - (t - 0.5) * 4 * 255;
+                    } else {
+                        r = 255;
+                        g = 255 - (t - 0.75) * 4 * 255;
+                        b = (t - 0.75) * 4 * 255;
+                    }
+                    data[i] = r;
+                    data[i + 1] = g;
+                    data[i + 2] = b;
+                }
+                ctx.putImageData(imgData, 0, 0);
+            } else if (type === 'cyberpunk') {
+                for (let i = 0; i < data.length; i += 4) {
+                    const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                    const pixelY = Math.floor((i / 4) / w);
+                    const scanline = (pixelY % 4 === 0) ? 0.6 : 1.0;
+                    data[i] = Math.min(255, lum * 0.2 * scanline);
+                    data[i + 1] = Math.min(255, lum * 1.3 * scanline);
+                    data[i + 2] = Math.min(255, lum * 0.4 * scanline);
+                }
+                ctx.putImageData(imgData, 0, 0);
+            } else if (type === 'noir') {
+                for (let i = 0; i < data.length; i += 4) {
+                    let lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                    // High-contrast S-curve
+                    lum = lum < 128 ? (lum * lum) / 128 : 255 - ((255 - lum) * (255 - lum)) / 128;
+                    // Accent red highlights
+                    if (data[i] > 140 && data[i] > data[i + 1] * 1.4 && data[i] > data[i + 2] * 1.4) {
+                        data[i] = 255;
+                        data[i + 1] = 40;
+                        data[i + 2] = 40;
+                    } else {
+                        data[i] = lum;
+                        data[i + 1] = lum;
+                        data[i + 2] = lum;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            } else if (type === 'invert') {
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = 255 - data[i];
+                    data[i + 1] = 255 - data[i + 1];
+                    data[i + 2] = 255 - data[i + 2];
+                    // Luminescent cyan tint
+                    data[i + 2] = Math.min(255, data[i + 2] * 1.2);
+                }
+                ctx.putImageData(imgData, 0, 0);
+            } else if (type === 'pixel') {
+                const blockSize = 12;
+                for (let y = 0; y < h; y += blockSize) {
+                    for (let x = 0; x < w; x += blockSize) {
+                        const pixelIndex = (y * w + x) * 4;
+                        const r = data[pixelIndex];
+                        const g = data[pixelIndex + 1];
+                        const b = data[pixelIndex + 2];
+
+                        ctx.fillStyle = `rgb(${r},${g},${b})`;
+                        ctx.fillRect(x, y, blockSize, blockSize);
+                    }
+                }
+            } else if (type === 'edges') {
+                // Sobel edge filter approximation
+                const copy = new Uint8ClampedArray(data);
+                for (let y = 1; y < h - 1; y++) {
+                    for (let x = 1; x < w - 1; x++) {
+                        const idx = (y * w + x) * 4;
+                        const lumLeft = 0.299 * copy[((y) * w + (x - 1)) * 4] + 0.587 * copy[((y) * w + (x - 1)) * 4 + 1];
+                        const lumRight = 0.299 * copy[((y) * w + (x + 1)) * 4] + 0.587 * copy[((y) * w + (x + 1)) * 4 + 1];
+                        const lumTop = 0.299 * copy[((y - 1) * w + x) * 4] + 0.587 * copy[((y - 1) * w + x) * 4 + 1];
+                        const lumBottom = 0.299 * copy[((y + 1) * w + x) * 4] + 0.587 * copy[((y + 1) * w + x) * 4 + 1];
+
+                        const dx = lumRight - lumLeft;
+                        const dy = lumBottom - lumTop;
+                        const edge = Math.min(255, Math.sqrt(dx * dx + dy * dy) * 2.5);
+
+                        data[idx] = edge > 60 ? 6 : 10;
+                        data[idx + 1] = edge > 60 ? 214 : 15;
+                        data[idx + 2] = edge > 60 ? 234 : 20;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+        }
+
+        // Andy Warhol 4-split Pop Art
+        function applyWarhol(w, h) {
+            const halfW = Math.floor(w / 2);
+            const halfH = Math.floor(h / 2);
+
+            // Copy the current frame
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = w;
+            tempCanvas.height = h;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0);
+
+            // Quadrant 1 (Top-Left: Magenta/Yellow)
+            ctx.drawImage(tempCanvas, 0, 0, halfW, halfH);
+            tintQuad(0, 0, halfW, halfH, 244, 63, 94);
+
+            // Quadrant 2 (Top-Right: Cyan/Blue)
+            ctx.drawImage(tempCanvas, halfW, 0, halfW, halfH);
+            tintQuad(halfW, 0, halfW, halfH, 6, 182, 212);
+
+            // Quadrant 3 (Bottom-Left: Yellow/Orange)
+            ctx.drawImage(tempCanvas, 0, halfH, halfW, halfH);
+            tintQuad(0, halfH, halfW, halfH, 245, 158, 11);
+
+            // Quadrant 4 (Bottom-Right: Neon Green)
+            ctx.drawImage(tempCanvas, halfW, halfH, halfW, halfH);
+            tintQuad(halfW, halfH, halfW, halfH, 16, 185, 129);
+
+            // Subtle divider borders
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(halfW, 0); ctx.lineTo(halfW, h);
+            ctx.moveTo(0, halfH); ctx.lineTo(w, halfH);
+            ctx.stroke();
+        }
+
+        function tintQuad(qx, qy, qw, qh, tr, tg, tb) {
+            const imgData = ctx.getImageData(qx, qy, qw, qh);
+            const data = imgData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                const lum = (data[i] + data[i + 1] + data[i + 2]) / 3 / 255;
+                data[i] = tr * lum;
+                data[i + 1] = tg * lum;
+                data[i + 2] = tb * lum;
+            }
+            ctx.putImageData(imgData, qx, qy);
+        }
+
+        // Barrel / Bulge Distortion (Photo Booth Fisheye & Alien)
+        function applyDistortion(type, w, h) {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = w;
+            tempCanvas.height = h;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0);
+
+            const srcData = tempCtx.getImageData(0, 0, w, h).data;
+            const dstImg = ctx.createImageData(w, h);
+            const dstData = dstImg.data;
+
+            const cx = w / 2;
+            const cy = h / 2;
+            const radius = Math.min(w, h) * 0.48;
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const dx = x - cx;
+                    const dy = y - cy;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    let srcX = x;
+                    let srcY = y;
+
+                    if (dist < radius) {
+                        const norm = dist / radius;
+                        let factor;
+                        if (type === 'fisheye') {
+                            // Bulge outward
+                            factor = Math.pow(norm, 0.65);
+                        } else {
+                            // Squeeze inward
+                            factor = Math.pow(norm, 1.45);
+                        }
+                        srcX = Math.floor(cx + (dx / dist) * factor * radius);
+                        srcY = Math.floor(cy + (dy / dist) * factor * radius);
+                    }
+
+                    if (srcX >= 0 && srcX < w && srcY >= 0 && srcY < h) {
+                        const srcIdx = (srcY * w + srcX) * 4;
+                        const dstIdx = (y * w + x) * 4;
+                        dstData[dstIdx] = srcData[srcIdx];
+                        dstData[dstIdx + 1] = srcData[srcIdx + 1];
+                        dstData[dstIdx + 2] = srcData[srcIdx + 2];
+                        dstData[dstIdx + 3] = 255;
+                    }
+                }
+            }
+            ctx.putImageData(dstImg, 0, 0);
+        }
+
+        // Shutter & Photo Capture
+        function snapPhoto() {
+            if (timerEnabled) {
+                runCountdown(() => executeCapture());
+            } else {
+                executeCapture();
+            }
+        }
+
+        function runCountdown(callback) {
+            countdownOverlay.style.display = 'flex';
+            let count = 3;
+            countdownText.textContent = count;
+            playBeep(440, 0.08);
+
+            const interval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownText.textContent = count;
+                    playBeep(440, 0.08);
+                } else {
+                    clearInterval(interval);
+                    countdownOverlay.style.display = 'none';
+                    callback();
+                }
+            }, 900);
+        }
+
+        function executeCapture() {
+            // White Screen Flash
+            flashOverlay.classList.add('active');
+            playShutterSound();
+
+            setTimeout(() => {
+                flashOverlay.classList.remove('active');
+            }, 80);
+
+            // Capture snapshot from canvas
+            // Account for mirror state
+            const snapCanvas = document.createElement('canvas');
+            snapCanvas.width = canvas.width;
+            snapCanvas.height = canvas.height;
+            const sCtx = snapCanvas.getContext('2d');
+
+            if (isMirror) {
+                sCtx.translate(snapCanvas.width, 0);
+                sCtx.scale(-1, 1);
+            }
+            sCtx.drawImage(canvas, 0, 0);
+
+            const dataUrl = snapCanvas.toDataURL('image/jpeg', 0.92);
+            const newPhoto = {
+                id: Date.now(),
+                dataUrl: dataUrl,
+                filter: activeFilter,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            };
+
+            capturedPhotos.unshift(newPhoto);
+            updateFilmstrip();
+        }
+
+        // Filmstrip UI
+        function updateFilmstrip() {
+            photoCount.textContent = capturedPhotos.length;
+            if (capturedPhotos.length === 0) {
+                filmstrip.innerHTML = '<div class="empty-gallery">No photos taken yet. Hit the red shutter button!</div>';
+                return;
+            }
+
+            filmstrip.innerHTML = '';
+            capturedPhotos.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.innerHTML = `
+                    <img src="${p.dataUrl}" alt="Snapshot">
+                    <div class="photo-card-actions">
+                        <button class="card-action-btn" title="View"><i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i></button>
+                    </div>
+                `;
+                card.onclick = () => openModal(p);
+                filmstrip.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function openModal(photo) {
+            modalImg.src = photo.dataUrl;
+            modalTimestamp.textContent = `CAPTURED AT ${photo.timestamp} · [${photo.filter.toUpperCase()}]`;
+            modalDownloadBtn.href = photo.dataUrl;
+            modalDownloadBtn.download = `photo_booth_${photo.filter}_${photo.id}.jpg`;
+            photoModal.style.display = 'flex';
+        }
+
+        modalCloseBtn.onclick = () => { photoModal.style.display = 'none'; };
+        photoModal.onclick = (e) => {
+            if (e.target === photoModal) photoModal.style.display = 'none';
+        };
+
+        // Mirror Toggle
+        mirrorBtn.onclick = () => {
+            isMirror = !isMirror;
+            canvas.style.transform = isMirror ? 'scaleX(-1)' : 'scaleX(1)';
+            mirrorBtn.style.color = isMirror ? 'var(--accent-cyan)' : 'var(--text-main)';
+        };
+
+        // Timer Toggle
+        burstToggleBtn.onclick = () => {
+            timerEnabled = !timerEnabled;
+            timerLabel.textContent = `3s Timer: ${timerEnabled ? 'ON' : 'OFF'}`;
+            burstToggleBtn.style.borderColor = timerEnabled ? 'var(--accent-red)' : 'var(--surface-border)';
+        };
+
+        // Clear Reel
+        clearReelBtn.onclick = () => {
+            if (capturedPhotos.length > 0 && confirm('Clear all photos in the reel?')) {
+                capturedPhotos = [];
+                updateFilmstrip();
+            }
+        };
+
+        // Shutter events
+        shutterBtn.onclick = snapPhoto;
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && e.target === document.body) {
+                e.preventDefault();
+                snapPhoto();
+            }
+        });
+
+        // Initialize UI
+        buildFilters();
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity ML Agents | Jake Altom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="nav-item">
+                <a href="projects.html" class="active">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html">Resume</a>
+            <a href="experiments.html">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="reveal">
+            <div class="project-header">
+                <p class="tagline">AI & Game Development</p>
+                <h1 style="font-size: clamp(2rem, 8vw, 4rem);">Unity ML Agents</h1>
+            </div>
+
+            <div class="project-meta">
+                <div class="project-meta-item">
+                    <p class="info-label">Keywords</p>
+                    <p>Reinforcement Learning, Unity Engine (C#), Python, PyTorch</p>
+                </div>
+                <div class="project-meta-item">
+                    <p class="info-label">Status</p>
+                    <p>Phase 3: Deep Dive (In Progress)</p>
+                </div>
+                <div class="project-meta-item">
+                    <p class="info-label">Source</p>
+                    <p><a href="https://github.com/jaltom2105/unity-ml-agents-project" target="_blank" style="color: var(--text-primary); text-decoration: underline;">GitHub Repository</a></p>
+                </div>
+            </div>
+
+            <div class="project-content">
+                <div>
+                    <h3 style="margin-bottom: 1rem;">Project Origin</h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        This project was inspired by watching YouTube videos of machine learning models learning to do complex tasks, like playing soccer or "Red Light, Green Light." I wanted to figure out how to replicate those results myself to get a better understanding of how machine learning actually works.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        I found out that Unity has its own ML-Agents toolkit, so I'm using it to start with their examples and eventually move on to designing and training my own custom agents from scratch.
+                    </p>
+                    
+                    <h3 style="margin-bottom: 1rem;">The Tech Stack</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; font-size: 0.85rem;">
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Simulation:</strong> Unity 2022.3 LTS
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Training Backend:</strong> Python 3.10 & PyTorch
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Hardware:</strong> NVIDIA RTX 5070 (CUDA 12.4)
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Visualization:</strong> TensorBoard
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Progress Milestones</h3>
+                    <div style="font-family: var(--font-mono); font-size: 0.8rem; border: var(--border-width) solid var(--primary-color); margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid var(--primary-color); background: var(--primary-color); color: var(--secondary-color);">
+                            <span>PHASE</span><span>STATUS</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                            <span>Infrastructure & Setup</span><span style="color: green;">COMPLETE</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                            <span>Environment Config</span><span style="color: green;">COMPLETE</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem;">
+                            <span>Deep Dive into PPO/Rewards</span><span style="color: var(--primary-color);">IN_PROGRESS</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <aside>
+                    <div style="background-color: var(--accent-color); padding: 2rem; border: var(--border-width) solid var(--primary-color);">
+                        <h4 style="margin-bottom: 1rem;">Project Goals</h4>
+                        <ul style="font-size: 0.8rem; padding-left: 1rem;">
+                            <li style="margin-bottom: 0.5rem;">Master GPU-accelerated RL training.</li>
+                            <li style="margin-bottom: 0.5rem;">Implement sac (Soft Actor-Critic) on custom agents.</li>
+                            <li style="margin-bottom: 0.5rem;">Document emergent strategies for future replication.</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <ul style="list-style: none;">
+                <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

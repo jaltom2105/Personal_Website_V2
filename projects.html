@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Jake Altom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="nav-item">
+                <a href="projects.html" class="active">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html">Resume</a>
+            <a href="experiments.html">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="reveal">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+            </div>
+            
+            <p style="margin-bottom: 3rem; max-width: 700px;">
+                A collection of work spanning artificial intelligence, psychological research, and interactive design. Each project represents a step toward more symbiotic human-machine relationships.
+            </p>
+
+            <div class="section-grid">
+                <!-- Project 1 -->
+                <div class="project-card" onclick="window.location.href='project-unity-ml.html'" style="cursor: pointer;">
+                    <div>
+                        <p class="info-label">AI & Game Development</p>
+                        <h3>Unity ML Agents</h3>
+                        <p>Exploring machine learning within the Unity engine using ML-Agents to create intelligent behaviors in game environments.</p>
+                    </div>
+                    <div style="margin-top: 2rem;">
+                        <span class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View Project</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" onclick="window.location.href='project-ai-portfolio.html'" style="cursor: pointer;">
+                    <div>
+                        <p class="info-label">AI & Design Interaction</p>
+                        <h3>AI Portfolio Development</h3>
+                        <p>This very website. An experimental case study on building professional digital identities through collaborative natural language development with AI.</p>
+                    </div>
+                    <div style="margin-top: 2rem;">
+                        <span class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View Project</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+            <p style="margin-top: 0.35rem;"><a href="tel:908-963-5312" style="color: var(--text-primary); text-decoration: none;">(908) 963-5312</a></p>
+            <p style="margin-top: 0.35rem; font-size: 0.85rem; color: var(--text-secondary);">Whitehouse Station, NJ</p>
+            <div style="margin-top: 0.75rem; display: flex; gap: 1rem;">
+                <a href="https://linkedin.com/in/jake-altom" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="linkedin" style="width: 15px; height: 15px;"></i> LinkedIn</a>
+                <a href="https://github.com/jaltom2105" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="github" style="width: 15px; height: 15px;"></i> GitHub</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <ul style="list-style: none;">
+                <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                <li><a href="projects.html" style="color: var(--text-primary); text-decoration: none;">Projects</a></li>
+                <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Jake the Tinkerer Sprite -->
+    <div class="tinkerer-container">
+        <div class="tinkerer-bubble">Scanning project schematics...</div>
+        <i data-lucide="wrench" class="gear-icon"></i>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

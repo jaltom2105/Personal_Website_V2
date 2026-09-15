@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Experiments | Jake Altom</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="opening-wrapper"></div>
+    
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="nav-item">
+                <a href="projects.html">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html">Resume</a>
+            <a href="experiments.html" class="active">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main class="page-transition">
+        <section class="reveal">
+            <div class="section-tag">AI_LABORATORY</div>
+            <h1 class="hero-title">EXPERIMENTS</h1>
+            <p class="tagline">Under Development</p>
+            
+            <div style="border-left: var(--border-width) solid var(--primary-color); padding-left: 2rem; margin-top: 3rem;">
+                <p style="margin-bottom: 2rem; max-width: 800px; font-family: var(--font-mono);">
+                    > Initializing experimental environment...<br>
+                    > Status: Active.<br>
+                    > Selecting laboratory module 01...
+                </p>
+
+                <!-- Experiments Grid -->
+                <div class="experiments-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    
+                    <!-- Experiment 01: The Button -->
+                    <a href="exp-red-button.html" target="_blank" class="exp-card" style="text-decoration: none; color: inherit; border: var(--border-width) solid var(--primary-color); padding: 2rem; position: relative; overflow: hidden; transition: transform 0.2s ease;">
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); margin-bottom: 1rem;">ID: 001 // CURIOSITY_TEST</div>
+                        <h3 style="margin-bottom: 1rem;">DON'T_CLICK_ME</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">A psychological experiment in human curiosity. We told you not to. Will you still do it?</p>
+                        <div style="margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: #ff3e3e; font-weight: bold;">
+                            <i data-lucide="alert-circle" style="width: 1rem;"></i>
+                            MAY_CLOSE_TAB
+                        </div>
+                    </a>
+
+                    <!-- Experiment 02: Sky Hopper -->
+                    <a href="exp-circuit-hopper.html" class="exp-card" style="text-decoration: none; color: inherit; border: var(--border-width) solid var(--primary-color); padding: 2rem; position: relative; overflow: hidden; transition: transform 0.2s ease;">
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); margin-bottom: 1rem;">ID: 002 // CUTE_ARCADE</div>
+                        <h3 style="margin-bottom: 1rem;">SKY_HOPPER</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">A floaty, friendly distance game. Help the cloud friend navigate the sky pillars.</p>
+                        <div style="margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); font-weight: bold;">
+                            <i data-lucide="cloud" style="width: 1rem;"></i>
+                            VIBE_CHECK: RELAXED
+                        </div>
+                    </a>
+
+                    <!-- Experiment 03: Photo Booth Lab -->
+                    <a href="exp-photo-booth.html" class="exp-card" style="text-decoration: none; color: inherit; border: var(--border-width) solid var(--primary-color); padding: 2rem; position: relative; overflow: hidden; transition: transform 0.2s ease;">
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); margin-bottom: 1rem;">ID: 003 // VISION_LAB</div>
+                        <h3 style="margin-bottom: 1rem;">PHOTO_BOOTH</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Interactive webcam photo booth inspired by macOS. Features 10 real-time filters (thermal, Andy Warhol, fisheye bulge, cyberpunk), 3-second countdown timer, flash snapshot shutter, and reel gallery.</p>
+                        <div style="margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); font-weight: bold;">
+                            <i data-lucide="camera" style="width: 1rem;"></i>
+                            WEBCAM_ACTIVE
+                        </div>
+                    </a>
+
+                    <!-- More slots can be added here -->
+                    <div class="exp-card placeholder" style="border: var(--border-width) dashed var(--text-secondary); padding: 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0.35;">
+                        <i data-lucide="plus" style="margin-bottom: 1rem;"></i>
+                        <span style="font-family: var(--font-mono); font-size: 0.7rem;">MODULE_SLOT_EMPTY</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 5rem; padding: 2rem; border-top: var(--border-width) solid var(--primary-color);">
+        <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <p style="font-family: var(--font-mono); font-size: 0.8rem;">© 2026 JAKE ALTOM / COGNITIVE_LOG</p>
+            <div class="social-links" style="display: flex; align-items: center; gap: 1rem;">
+                <a href="https://linkedin.com/in/jake-altom" target="_blank" style="color: inherit; text-decoration: none;" title="LinkedIn"><i data-lucide="linkedin"></i></a>
+                <a href="https://github.com/jaltom2105" target="_blank" style="color: inherit; text-decoration: none;" title="GitHub"><i data-lucide="github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

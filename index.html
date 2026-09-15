@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jake Altom | Portfolio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="opening-wrapper" class="opening-up-wrapper">
+        <header>
+                <div class="logo">
+                    <h1 style="font-size: 1.5rem;">J. Altom</h1>
+                </div>
+                <nav>
+                    <a href="index.html" class="active">Home</a>
+                    <a href="about.html">About</a>
+                    <div class="nav-item">
+                        <a href="projects.html">Projects</a>
+                        <div class="dropdown-content">
+                            <a href="project-unity-ml.html">Unity ML Agents</a>
+                            <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                        </div>
+                    </div>
+                    <a href="resume.html">Resume</a>
+                    <a href="experiments.html">Experiments</a>
+                    <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+                </nav>
+            </header>
+
+            <main>
+                <!-- Hero Section -->
+                <section class="hero reveal">
+                    <div class="hero-content">
+                        <p class="tagline">Bridging Human Cognition and Machine Intelligence</p>
+                        <h1 class="hero-title">Jake<br>Altom</h1>
+                        <p style="max-width: 500px; margin-bottom: 2rem; border-top: 1px solid var(--text-secondary); padding-top: 1rem;">
+                            Senior at <b>Purdue University</b>. Double majoring in <b>Artificial Intelligence & Psychology</b>. 
+                            Exploring the intersection of behavioral data and automated decision-making.
+                        </p>
+                        <div class="hero-btns">
+                            <a href="projects.html" class="btn btn-filled">View Work</a>
+                            <a href="about.html" class="btn">Get to Know Me</a>
+                        </div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="image-accent"></div>
+                        <canvas id="neural-canvas"></canvas>
+                        <!-- Profile Image -->
+                        <img src="https://drive.google.com/thumbnail?id=1fUClvtkIr1UaDk8cXkGTGmFJbGRAxCbA&sz=s2000" alt="Jake Altom" class="profile-img" referrerPolicy="no-referrer">
+                    </div>
+                </section>
+
+                <!-- Brief Intro / Functional Callout -->
+                <section style="background-color: var(--accent-color); color: var(--text-primary); transition: background 0.3s;" class="reveal">
+                    <div class="section-header">
+                        <h2>Functional Focus</h2>
+                    </div>
+                    <div class="section-grid">
+                        <div style="padding: 1rem; border-left: 5px solid var(--primary-color);">
+                            <h3 style="margin-bottom: 0.5rem;">AI Integration</h3>
+                            <p>Leveraging deep learning and neural architectures to solve complex computational problems.</p>
+                        </div>
+                        <div style="padding: 1rem; border-left: 5px solid var(--primary-color);">
+                            <h3 style="margin-bottom: 0.5rem;">Psychological Insight</h3>
+                            <p>Applying behavioral theory to improve user interaction and algorithmic fairness.</p>
+                        </div>
+                        <div style="padding: 1rem; border-left: 5px solid var(--primary-color);">
+                            <h3 style="margin-bottom: 0.5rem;">Technical Implementation</h3>
+                            <p>Building robust, maintainable systems with a focus on constructive, efficient design.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Cognitive Insights Section -->
+                <section class="reveal" style="padding-top: 2rem; border-top: var(--border-width) solid var(--primary-color); margin: 0 5% 5rem 5%;">
+                    <div style="display: grid; grid-template-columns: 1fr 3fr; gap: 2rem; align-items: start;">
+                        <div>
+                            <p class="info-label">Insight Engine</p>
+                            <h3 style="margin-top: 1rem;">Cognitive Mirror</h3>
+                        </div>
+                        <div id="insight-display" style="padding: 2rem; background-color: var(--accent-color); border: var(--border-width) solid var(--primary-color); min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
+                            <p id="insight-text" style="font-size: 1.25rem; font-weight: 300; font-style: italic; color: var(--text-primary);">
+                                Initializing neural pathways...
+                            </p>
+                            <p id="insight-meta" style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700;">
+                                System Status: Calibrating
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+                    <p style="margin-top: 0.35rem;"><a href="tel:908-963-5312" style="color: var(--text-primary); text-decoration: none;">(908) 963-5312</a></p>
+                    <p style="margin-top: 0.35rem; font-size: 0.85rem; color: var(--text-secondary);">Whitehouse Station, NJ</p>
+                    <div style="margin-top: 0.75rem; display: flex; gap: 1rem;">
+                        <a href="https://linkedin.com/in/jake-altom" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="linkedin" style="width: 15px; height: 15px;"></i> LinkedIn</a>
+                        <a href="https://github.com/jaltom2105" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="github" style="width: 15px; height: 15px;"></i> GitHub</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Navigation</h3>
+                    <ul style="list-style: none;">
+                        <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                        <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                        <li><a href="projects.html" style="color: var(--text-primary); text-decoration: none;">Projects</a></li>
+                        <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                        <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

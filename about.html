@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Jake Altom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <div class="nav-item">
+                <a href="projects.html">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html">Resume</a>
+            <a href="experiments.html">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="reveal">
+            <div class="section-header">
+                <h2>The Person Behind the Work</h2>
+            </div>
+            
+            <div class="info-grid">
+                <div>
+                    <div style="margin-bottom: 2rem;">
+                        <p class="info-label">Academic Profile</p>
+                        <p><b>Senior</b> at <b>Purdue University</b></p>
+                        <p>Double Major: AI & Psychology</p>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <p class="info-label">Origins</p>
+                        <p>Readington, NJ</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <p class="info-label">Interests & Hobbies</p>
+                        <div class="hobby-container">
+                            <div class="hobby-chips">
+                                <button class="chip active" data-hobby="ultimate">Ultimate Frisbee</button>
+                                <button class="chip" data-hobby="golfing">Golfing</button>
+                                <button class="chip" data-hobby="brew">Home Brew</button>
+                                <button class="chip" data-hobby="jets">New York Jets</button>
+                            </div>
+                            
+                            <div class="hobby-content-area">
+                                <!-- Ultimate Pane -->
+                                <div class="hobby-panel active" id="ultimate">
+                                    <h4>Ultimate Frisbee</h4>
+                                    <p>I actively play Ultimate Frisbee at Purdue. It's more than just a sport; it's a community that emphasizes "Spirit of the Game", a philosophy that aligns perfectly with my interest in cooperative human systems.</p>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                                        <div style="flex: 1; border: var(--border-width) solid var(--primary-color); background: none;">
+                                            <img src="https://drive.google.com/thumbnail?id=1lxsZu9S0bKXkxXhsl6msTxWn4Po-U8Vy&sz=s2000" alt="Ultimate Frisbee Highlights" style="width: 100%; height: auto; display: block;" referrerPolicy="no-referrer">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Golfing Pane -->
+                                <div class="hobby-panel" id="golfing">
+                                    <h4>Golfing</h4>
+                                    <p>Golfing provides a unique space for mental discipline and technical precision. I enjoy the strategic aspect of the game, calculating risks and rewards on every hole.</p>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                                    <div style="flex: 1; border: var(--border-width) solid var(--primary-color); background: none;">
+                                        <img src="https://drive.google.com/thumbnail?id=1MmijPXVpE_qZXwu4s6DLEe9PEHQIzWnS&sz=s2000" alt="Golfing Highlights" style="width: 100%; height: auto; display: block;" referrerPolicy="no-referrer">
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Brew Pane -->
+                                <div class="hobby-panel" id="brew">
+                                    <h4>Home Brewing</h4>
+                                    <p>Home brewing is where my interest in biology and data integration meets a tangible product. From monitoring fermentation temperatures to yeast profiling, it's a fun way to apply the scientific method outside the lab.</p>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                                        <div style="flex: 1; border: var(--border-width) solid var(--primary-color); background: none;">
+                                            <img src="https://drive.google.com/thumbnail?id=1D8Mfg4giaTkamHR4-cOMyyf72RZblJOn&sz=s2000" alt="Home Brew Photos" style="width: 100%; height: auto; display: block;" referrerPolicy="no-referrer">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Jets Pane -->
+                                <div class="hobby-panel" id="jets">
+                                    <h4>New York Jets</h4>
+                                    <p>Being a lifelong New York Jets fan has instilled in me true dedication, resilience, and irrational loyalty to a team that routinely tests my patience every Sunday. No matter the record, Sunday afternoons in the fall are reserved for Gang Green.</p>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                                        <div style="flex: 1; border: var(--border-width) solid var(--primary-color); background: none;">
+                                            <img id="jets-img" src="https://drive.google.com/thumbnail?id=1uOHTc9-rpyJU8r5-pM9l38Spy5NER65y&sz=s2000" alt="New York Jets Gameday" style="width: 100%; height: auto; display: block;" onerror="this.src='jets.jpg';" referrerPolicy="no-referrer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="border-left: var(--border-width) solid var(--primary-color); padding-left: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">My Journey</h3>
+                    
+                    <div style="float: right; width: 200px; margin-left: 2rem; margin-bottom: 1rem;" class="profile-container">
+                        <div class="image-accent" style="top: -10px; right: -10px;"></div>
+                        <img src="https://drive.google.com/thumbnail?id=1LRIQU-YjDk4YStjyrFTWb6UTga8Qj2aI&sz=s2000" alt="Jake - Personal" class="profile-img" style="filter: grayscale(0);" referrerPolicy="no-referrer">
+                    </div>
+
+                    <p style="margin-bottom: 1.5rem;">
+                        Growing up with my dad working in the computer science industry, technology was a constant in my life. Between gaming, computers, and tinkering, developing an interest in coding felt like second nature, which led me to transfer into Computer Science during my freshman year at Purdue.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        At the same time, an introductory psychology class I took during my senior year of high school had sparked an enduring fascination with cognitive behavior and how human minds process information. When I discovered I could combine both passions through a double major, everything clicked. In the spring of my sophomore year, I transferred from CS into Artificial Intelligence (B.S.), formally uniting computational rigor with cognitive psychology.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        Since then, I've been exploring how these fields intersect, especially within machine learning. Double majoring allows me to view ML not just as abstract math equations, but as agents operating on incentives, feedback loops, and learning dynamics.
+                    </p>
+                    
+                    <h3 style="margin-bottom: 1rem;">Career Aspirations</h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        My primary goal is to work in <strong>Machine Learning and Applied AI Engineering</strong>. I want to be directly involved in designing, training, and deploying models, especially in reinforcement learning, deep learning, and autonomous systems.
+                    </p>
+                    <p>
+                        Whether it's building intelligent simulation agents, optimizing decision-making algorithms, or developing AI tools that solve real-world engineering challenges, I'm eager to join a team where I can contribute to core model development and scale practical AI solutions.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Globe Section -->
+        <section class="reveal" style="padding: 4rem 5%; border-top: var(--border-width) solid var(--primary-color);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto;">
+                <div>
+                    <p class="info-label">Global Presence</p>
+                    <h3>Travel Geography</h3>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+                        To me, traveling isn't just about crossing destinations off a checklist; it's about stepping completely outside my comfort zone and immersing myself in different cultures, lifestyles, and ways of thinking. Whether it's navigating the hyper-connected, synchronized transit systems of Japan, exploring ancient history in Rome, venturing into the red heart of Australia at Uluru, or experiencing the vibrant community warmth in Costa Rica, Mexico, and Puerto Rico, every trip reshapes how I view the world. Coming from a background in psychology and artificial intelligence, experiencing diverse environments firsthand gives me an irreplaceable appreciation for how human beings communicate, adapt, and build community across different traditions. Traveling keeps me curious, grounded, and adaptable, constantly reminding me that no matter where you go, there is always something new to learn from the people around you.
+                    </p>
+                    <p style="margin-top: 1.25rem; border-left: 3px solid var(--primary-color); padding-left: 1rem; font-style: italic; font-size: 0.9rem; color: var(--text-primary);">
+                        Click and drag to rotate the globe. Pinned nodes highlight my favorite travels across Australia, Japan, Europe, the Caribbean, and North America.
+                    </p>
+                </div>
+                <div>
+                    <div id="globe-parent" style="width: 100%; height: 480px; max-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--accent-color); border: var(--border-width) solid var(--primary-color); cursor: grab; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: 1rem; left: 1rem; z-index: 5; background: rgba(var(--primary-color-rgb), 0.15); border: 1px solid var(--primary-color); padding: 0.4rem 0.8rem; border-radius: 4px; pointer-events: none;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); font-weight: bold;">LIVE_MAP // 15_LOCATIONS</span>
+                        </div>
+                        <canvas id="globe-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+                    </div>
+                    <p style="margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                        <i data-lucide="mouse-pointer" style="width: 14px; height: 14px; color: var(--primary-color);"></i>
+                        Interactive: Click anywhere on the globe to pause spinning for 4 seconds, or drag to rotate. Hover over any dot to see the location name.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section style="background-color: var(--primary-color); color: var(--secondary-color);" class="reveal">
+            <div style="text-align: center; padding: 4rem 2rem;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Want to collaborate?</h2>
+                <p style="margin-bottom: 2rem;">I'm always looking for new projects and opportunities in AI, UX Research, and Data Science.</p>
+                <a href="mailto:jakefaltom@gmail.com" class="btn btn-filled" style="border-color: var(--secondary-color);">Send an Email</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+            <p style="margin-top: 0.35rem;"><a href="tel:908-963-5312" style="color: var(--text-primary); text-decoration: none;">(908) 963-5312</a></p>
+            <p style="margin-top: 0.35rem; font-size: 0.85rem; color: var(--text-secondary);">Whitehouse Station, NJ</p>
+            <div style="margin-top: 0.75rem; display: flex; gap: 1rem;">
+                <a href="https://linkedin.com/in/jake-altom" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="linkedin" style="width: 15px; height: 15px;"></i> LinkedIn</a>
+                <a href="https://github.com/jaltom2105" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="github" style="width: 15px; height: 15px;"></i> GitHub</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <ul style="list-style: none;">
+                <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                <li><a href="projects.html" style="color: var(--text-primary); text-decoration: none;">Projects</a></li>
+                <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+            </ul>
+        </div>
+    </footer>
+    
+    <!-- Jake the Tinkerer Sprite -->
+    <div class="tinkerer-container">
+        <div class="tinkerer-bubble">Analyzing cognitive patterns...</div>
+        <i data-lucide="wrench" class="gear-icon"></i>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

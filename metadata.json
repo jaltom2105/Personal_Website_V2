@@ -1,0 +1,10 @@
+{
+  "name": "Jake Altom Portfolio",
+  "description": "Personal portfolio website for Jake Altom, a Senior at Purdue University majoring in AI and Psychology. Features a Constructivist design with project showcases, resume embedding, interactive experiments, and dark mode.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
