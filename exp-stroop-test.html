@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE STROOP EFFECT | Cognitive Psychology Lab | Jake Altom</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exp-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem;
+        }
+
+        .meta-tag-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-tag {
+            border: 1px solid var(--primary-color);
+            padding: 0.2rem 0.6rem;
+            background: rgba(var(--primary-color-rgb), 0.08);
+            border-radius: 2px;
+        }
+
+        .stroop-card {
+            background: var(--secondary-color);
+            border: var(--border-width) solid var(--primary-color);
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 6px 6px 0px rgba(var(--primary-color-rgb), 0.2);
+            margin-bottom: 2rem;
+        }
+
+        /* Screen Transitions */
+        .test-screen {
+            display: none;
+        }
+
+        .test-screen.active {
+            display: block;
+        }
+
+        /* Stimulus Display */
+        .stimulus-box {
+            background: var(--accent-color);
+            border: 2px solid var(--primary-color);
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+            user-select: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .stimulus-word {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: transform 0.1s ease;
+        }
+
+        .stimulus-fixation {
+            font-size: 3rem;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+        /* Color Buttons */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .color-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stimulus-word {
+                font-size: 3rem;
+            }
+            .stroop-card {
+                padding: 1.5rem;
+            }
+        }
+
+        .color-btn {
+            background: var(--secondary-color);
+            border: 2px solid var(--primary-color);
+            padding: 1.25rem 0.75rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            transition: all 0.15s ease;
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .color-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-btn:active {
+            transform: translateY(1px);
+        }
+
+        .color-btn .swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        .color-btn .key-hint {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: var(--accent-color);
+            padding: 1px 6px;
+            border-radius: 2px;
+            border: 1px solid var(--text-secondary);
+        }
+
+        /* Progress Bar */
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            border: 1px solid var(--primary-color);
+            margin: 1.5rem 0 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        /* Results Display */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: var(--accent-color);
+            border: 1px solid var(--primary-color);
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin: 0.25rem 0;
+        }
+
+        .metric-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Chart Canvas */
+        .chart-box {
+            background: var(--accent-color);
+            border: 1px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Countdown Overlay */
+        .countdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(var(--secondary-color), 0.92);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .countdown-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .countdown-number {
+            font-family: var(--font-mono);
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            animation: pulseNum 0.8s infinite;
+        }
+
+        @keyframes pulseNum {
+            0% { transform: scale(0.85); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .flash-correct {
+            border-color: #10b981 !important;
+            background-color: rgba(16, 185, 129, 0.08) !important;
+        }
+
+        .flash-error {
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.08) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="opening-wrapper"></div>
+
+    <header>
+        <div class="logo">
+            <h1 style="font-size: 1.5rem;"><a href="index.html" style="text-decoration: none; color: inherit;">J. Altom</a></h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="nav-item">
+                <a href="projects.html">Projects</a>
+                <div class="dropdown-content">
+                    <a href="project-unity-ml.html">Unity ML Agents</a>
+                    <a href="project-ai-portfolio.html">AI Portfolio Development</a>
+                </div>
+            </div>
+            <a href="resume.html">Resume</a>
+            <a href="experiments.html" class="active">Experiments</a>
+            <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+        </nav>
+    </header>
+
+    <main class="page-transition">
+        <div class="exp-container">
+            <!-- Back Navigation -->
+            <div style="margin-bottom: 1.5rem;">
+                <a href="experiments.html" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--primary-color); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Back to Laboratory
+                </a>
+            </div>
+
+            <div class="meta-tag-bar">
+                <span class="meta-tag">EXP_004</span>
+                <span class="meta-tag">COGNITIVE_PSYCHOLOGY</span>
+                <span class="meta-tag">EXECUTIVE_ATTENTION</span>
+                <span class="meta-tag">HUMAN_VS_AI</span>
+            </div>
+
+            <h1 class="hero-title" style="font-size: 2.75rem; margin-bottom: 0.5rem;">THE STROOP EFFECT</h1>
+            <p class="tagline" style="margin-bottom: 2rem;">Cognitive Interference & Reaction Time Laboratory</p>
+
+            <!-- CARD CONTAINER -->
+            <div class="stroop-card" id="stroop-main-card">
+
+                <!-- 1. INTRO SCREEN -->
+                <div id="screen-intro" class="test-screen active">
+                    <div style="font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; margin-bottom: 2rem;">
+                        <p style="margin-bottom: 1rem;">
+                            <strong>What is the Stroop Effect?</strong> First documented in 1935 by psychologist John Ridley Stroop, this experiment tests cognitive flexibility and selective attention.
+                        </p>
+                        <p style="margin-bottom: 1rem;">
+                            When you read a word, your brain decodes its semantic meaning <em>automatically and involuntarily</em>. But when the visual <strong>ink color</strong> contradicts the written word (e.g. the word <span style="color: #2563eb; font-weight: bold; background: #e2e8f0; padding: 2px 6px;">RED</span> written in Blue ink), your brain experiences <strong>cognitive interference</strong>.
+                        </p>
+                        <p style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: var(--text-primary); font-weight: bold;">
+                            RULE: Name the INK COLOR you see. Do NOT read the word text!
+                        </p>
+                    </div>
+
+                    <!-- Demo Preview -->
+                    <div style="background: var(--accent-color); border: 1px solid var(--primary-color); padding: 1.5rem; margin-bottom: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-around; gap: 1rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.8rem; font-weight: 900; color: #10b981; letter-spacing: 0.05em;">BLUE</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.35rem;">Word: "BLUE" | Ink: Green</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #10b981; font-weight: bold;">Correct Response: GREEN</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.8rem; font-weight: 900; color: #ef4444; letter-spacing: 0.05em;">RED</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.35rem;">Word: "RED" | Ink: Red (Congruent)</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #ef4444; font-weight: bold;">Correct Response: RED</div>
+                        </div>
+                    </div>
+
+                    <!-- Options -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <label style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;">Trials:</label>
+                            <select id="trial-count-select" style="padding: 0.5rem 1rem; font-family: var(--font-mono); background: var(--accent-color); border: 1px solid var(--primary-color); color: var(--text-primary); border-radius: 2px;">
+                                <option value="20">20 Trials (Rapid ~30s)</option>
+                                <option value="30">30 Trials (Standard ~45s)</option>
+                                <option value="40">40 Trials (High Precision ~60s)</option>
+                            </select>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary);">
+                            <i data-lucide="keyboard" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Keyboard shortcuts enabled: R, G, B, Y or 1, 2, 3, 4
+                        </div>
+                    </div>
+
+                    <button id="btn-start-test" class="btn btn-filled" style="width: 100%; padding: 1.25rem; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+                        <i data-lucide="play" style="width: 20px; height: 20px;"></i>
+                        BEGIN EXPERIMENT
+                    </button>
+                </div>
+
+                <!-- 2. ACTIVE TEST SCREEN -->
+                <div id="screen-test" class="test-screen">
+                    <!-- Status Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.85rem;">
+                        <div>
+                            <span style="color: var(--text-secondary);">TRIAL:</span>
+                            <span id="trial-current-num" style="font-weight: bold; color: var(--primary-color);">01</span> / <span id="trial-total-num">20</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--text-secondary);">ACCURACY:</span>
+                            <span id="live-accuracy" style="font-weight: bold; color: var(--primary-color);">100%</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--text-secondary);">LAST RT:</span>
+                            <span id="live-last-rt" style="font-weight: bold;">--- ms</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-track">
+                        <div id="test-progress-fill" class="progress-fill"></div>
+                    </div>
+
+                    <!-- Stimulus Box -->
+                    <div id="stimulus-container" class="stimulus-box">
+                        <div id="stimulus-text" class="stimulus-word">READY</div>
+                    </div>
+
+                    <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: center; margin-bottom: 0.75rem;">
+                        Select the INK COLOR:
+                    </p>
+
+                    <!-- Color Buttons -->
+                    <div class="color-grid">
+                        <button class="color-btn" data-color="RED" id="btn-color-red">
+                            <span class="swatch" style="background: #ef4444;"></span>
+                            <span style="color: #ef4444;">RED</span>
+                            <span class="key-hint">Key: R / 1</span>
+                        </button>
+                        <button class="color-btn" data-color="GREEN" id="btn-color-green">
+                            <span class="swatch" style="background: #10b981;"></span>
+                            <span style="color: #10b981;">GREEN</span>
+                            <span class="key-hint">Key: G / 2</span>
+                        </button>
+                        <button class="color-btn" data-color="BLUE" id="btn-color-blue">
+                            <span class="swatch" style="background: #3b82f6;"></span>
+                            <span style="color: #3b82f6;">BLUE</span>
+                            <span class="key-hint">Key: B / 3</span>
+                        </button>
+                        <button class="color-btn" data-color="YELLOW" id="btn-color-yellow">
+                            <span class="swatch" style="background: #f59e0b;"></span>
+                            <span style="color: #f59e0b;">YELLOW</span>
+                            <span class="key-hint">Key: Y / 4</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. RESULTS SCREEN -->
+                <div id="screen-results" class="test-screen">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <span class="meta-tag">SESSION_ANALYSIS_COMPLETE</span>
+                        <h2 style="font-size: 2rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">COGNITIVE PROFILE RESULTS</h2>
+                        <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary);">Executive attention interference breakdown</p>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="metric-grid">
+                        <div class="metric-card" style="border: 2px solid var(--primary-color);">
+                            <div class="metric-label">Stroop Interference Cost</div>
+                            <div class="metric-value" id="res-interference">+0 ms</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary);">Incongruent RT - Congruent RT</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Congruent Mean RT</div>
+                            <div class="metric-value" id="res-congruent-rt">0 ms</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary);">Ink matched word text</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Incongruent Mean RT</div>
+                            <div class="metric-value" id="res-incongruent-rt">0 ms</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary);">Ink conflicted with text</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Accuracy Rate</div>
+                            <div class="metric-value" id="res-accuracy">100%</div>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary);" id="res-correct-count">0 / 0 correct</div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Comparison Chart Box -->
+                    <div class="chart-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: bold;">REACTION TIME COMPARISON (MILLISECONDS)</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary);">Lower is faster</span>
+                        </div>
+                        <canvas id="stroop-chart" width="700" height="220" style="width: 100%; height: 220px; display: block;"></canvas>
+                    </div>
+
+                    <!-- Psychological & AI Comparison Panel -->
+                    <div style="background: var(--accent-color); border-left: 4px solid var(--primary-color); padding: 1.5rem; margin-bottom: 2rem; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.7;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--primary-color);">COGNITIVE SCIENCE & ARTIFICIAL INTELLIGENCE ANALYSIS:</h4>
+                        <p style="margin-bottom: 0.75rem;">
+                            <strong>Human Cognitive Processing:</strong> In human cognitive architecture, reading comprehension is an automated heuristic handled by the left ventral visual pathway. Suppressing semantic interference requires active top-down executive inhibition from the <em>Dorsolateral Prefrontal Cortex (DLPFC)</em> and <em>Anterior Cingulate Cortex (ACC)</em>. Your measured interference cost of <span id="res-interference-inline" style="font-weight: bold; color: var(--primary-color);">0ms</span> represents this neural conflict resolution latency.
+                        </p>
+                        <p>
+                            <strong>Artificial Neural Networks:</strong> Traditional Convolutional Neural Networks (CNNs) process pure numerical pixel tensors without semantic interference (0ms interference delay). However, modern Multimodal Foundation Models (like Vision Transformers trained on paired text-image tokens) have recently begun demonstrating artificial Stroop-like latency and attention bias when visual color tokens conflict with textual tokens in cross-attention matrices.
+                        </p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button id="btn-restart-test" class="btn btn-filled" style="padding: 0.75rem 1.5rem;">
+                                <i data-lucide="rotate-ccw" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle;"></i> Run Test Again
+                            </button>
+                            <button id="btn-download-csv" class="btn" style="padding: 0.75rem 1.5rem;">
+                                <i data-lucide="download" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle;"></i> Export Trial Log (CSV)
+                            </button>
+                        </div>
+                        <a href="experiments.html" class="btn" style="padding: 0.75rem 1.5rem; text-decoration: none;">
+                            Return to Experiments
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Countdown Overlay -->
+                <div id="countdown-modal" class="countdown-overlay">
+                    <div style="font-family: var(--font-mono); font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem;">GET READY...</div>
+                    <div id="countdown-digit" class="countdown-number">3</div>
+                    <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-color); margin-top: 1rem;">IDENTIFY INK COLOR ONLY</div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p><a href="mailto:jakefaltom@gmail.com" style="color: var(--text-primary); text-decoration: none;">jakefaltom@gmail.com</a></p>
+            <p style="margin-top: 0.35rem;"><a href="tel:908-963-5312" style="color: var(--text-primary); text-decoration: none;">(908) 963-5312</a></p>
+            <p style="margin-top: 0.35rem; font-size: 0.85rem; color: var(--text-secondary);">Whitehouse Station, NJ</p>
+            <div style="margin-top: 0.75rem; display: flex; gap: 1rem;">
+                <a href="https://linkedin.com/in/jake-altom" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="linkedin" style="width: 15px; height: 15px;"></i> LinkedIn</a>
+                <a href="https://github.com/jaltom2105" target="_blank" style="color: var(--text-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem;"><i data-lucide="github" style="width: 15px; height: 15px;"></i> GitHub</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <ul style="list-style: none;">
+                <li><a href="index.html" style="color: var(--text-primary); text-decoration: none;">Home</a></li>
+                <li><a href="about.html" style="color: var(--text-primary); text-decoration: none;">About</a></li>
+                <li><a href="projects.html" style="color: var(--text-primary); text-decoration: none;">Projects</a></li>
+                <li><a href="resume.html" style="color: var(--text-primary); text-decoration: none;">Resume</a></li>
+                <li><a href="experiments.html" style="color: var(--text-primary); text-decoration: none;">Experiments</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // --- STROOP EXPERIMENT LOGIC ---
+        (function() {
+            const COLORS = [
+                { name: 'RED', hex: '#ef4444' },
+                { name: 'GREEN', hex: '#10b981' },
+                { name: 'BLUE', hex: '#3b82f6' },
+                { name: 'YELLOW', hex: '#f59e0b' }
+            ];
+
+            const COLOR_MAP = {
+                'RED': '#ef4444',
+                'GREEN': '#10b981',
+                'BLUE': '#3b82f6',
+                'YELLOW': '#f59e0b'
+            };
+
+            // Screens
+            const screenIntro = document.getElementById('screen-intro');
+            const screenTest = document.getElementById('screen-test');
+            const screenResults = document.getElementById('screen-results');
+
+            // Controls & Elements
+            const btnStart = document.getElementById('btn-start-test');
+            const trialCountSelect = document.getElementById('trial-count-select');
+            const countdownModal = document.getElementById('countdown-modal');
+            const countdownDigit = document.getElementById('countdown-digit');
+            const stimulusBox = document.getElementById('stimulus-container');
+            const stimulusText = document.getElementById('stimulus-text');
+            const progressFill = document.getElementById('test-progress-fill');
+            const trialCurrentNum = document.getElementById('trial-current-num');
+            const trialTotalNum = document.getElementById('trial-total-num');
+            const liveAccuracy = document.getElementById('live-accuracy');
+            const liveLastRt = document.getElementById('live-last-rt');
+
+            // Results elements
+            const resInterference = document.getElementById('res-interference');
+            const resInterferenceInline = document.getElementById('res-interference-inline');
+            const resCongruentRt = document.getElementById('res-congruent-rt');
+            const resIncongruentRt = document.getElementById('res-incongruent-rt');
+            const resAccuracy = document.getElementById('res-accuracy');
+            const resCorrectCount = document.getElementById('res-correct-count');
+            const btnRestart = document.getElementById('btn-restart-test');
+            const btnDownloadCsv = document.getElementById('btn-download-csv');
+
+            let totalTrials = 20;
+            let currentTrialIndex = 0;
+            let trialList = [];
+            let sessionResults = [];
+            let stimulusStartTime = 0;
+            let isAwaitingInput = false;
+
+            // Generate randomized balanced trials (50% congruent, 50% incongruent)
+            function generateTrials(count) {
+                const trials = [];
+                const colorNames = COLORS.map(c => c.name);
+
+                for (let i = 0; i < count; i++) {
+                    const isCongruent = Math.random() < 0.5;
+                    const word = colorNames[Math.floor(Math.random() * colorNames.length)];
+                    let inkColor = word;
+
+                    if (!isCongruent) {
+                        const otherColors = colorNames.filter(c => c !== word);
+                        inkColor = otherColors[Math.floor(Math.random() * otherColors.length)];
+                    }
+
+                    trials.push({
+                        trialNum: i + 1,
+                        word: word,
+                        inkColor: inkColor,
+                        isCongruent: (word === inkColor)
+                    });
+                }
+                return trials;
+            }
+
+            function showScreen(screen) {
+                screenIntro.classList.remove('active');
+                screenTest.classList.remove('active');
+                screenResults.classList.remove('active');
+                screen.classList.add('active');
+                if (window.lucide) lucide.createIcons();
+            }
+
+            function startCountdown() {
+                totalTrials = parseInt(trialCountSelect.value, 10) || 20;
+                trialTotalNum.textContent = totalTrials;
+                trialList = generateTrials(totalTrials);
+                sessionResults = [];
+                currentTrialIndex = 0;
+
+                countdownModal.classList.add('active');
+                let count = 3;
+                countdownDigit.textContent = count;
+
+                const timer = setInterval(() => {
+                    count--;
+                    if (count > 0) {
+                        countdownDigit.textContent = count;
+                    } else if (count === 0) {
+                        countdownDigit.textContent = 'GO!';
+                    } else {
+                        clearInterval(timer);
+                        countdownModal.classList.remove('active');
+                        showScreen(screenTest);
+                        runNextTrial();
+                    }
+                }, 800);
+            }
+
+            function runNextTrial() {
+                if (currentTrialIndex >= trialList.length) {
+                    finishExperiment();
+                    return;
+                }
+
+                const trial = trialList[currentTrialIndex];
+                isAwaitingInput = false;
+
+                // Update header counters
+                trialCurrentNum.textContent = String(currentTrialIndex + 1).padStart(2, '0');
+                const percent = Math.round((currentTrialIndex / totalTrials) * 100);
+                progressFill.style.width = percent + '%';
+
+                // Fixation period (250ms)
+                stimulusText.textContent = '+';
+                stimulusText.style.color = 'var(--text-secondary)';
+                stimulusBox.classList.remove('flash-correct', 'flash-error');
+
+                setTimeout(() => {
+                    // Display word stimulus
+                    stimulusText.textContent = trial.word;
+                    stimulusText.style.color = COLOR_MAP[trial.inkColor];
+                    stimulusStartTime = performance.now();
+                    isAwaitingInput = true;
+                }, 220);
+            }
+
+            function handleAnswer(selectedColor) {
+                if (!isAwaitingInput) return;
+                isAwaitingInput = false;
+
+                const reactionTime = Math.round(performance.now() - stimulusStartTime);
+                const currentTrial = trialList[currentTrialIndex];
+                const isCorrect = (selectedColor === currentTrial.inkColor);
+
+                sessionResults.push({
+                    trialNum: currentTrialIndex + 1,
+                    word: currentTrial.word,
+                    inkColor: currentTrial.inkColor,
+                    isCongruent: currentTrial.isCongruent,
+                    selectedColor: selectedColor,
+                    isCorrect: isCorrect,
+                    reactionTime: reactionTime
+                });
+
+                // Update live feedback stats
+                liveLastRt.textContent = reactionTime + ' ms';
+                liveLastRt.style.color = isCorrect ? '#10b981' : '#ef4444';
+
+                const correctCount = sessionResults.filter(r => r.isCorrect).length;
+                const accuracy = Math.round((correctCount / sessionResults.length) * 100);
+                liveAccuracy.textContent = accuracy + '%';
+
+                // Tactile stimulus border flash
+                if (isCorrect) {
+                    stimulusBox.classList.add('flash-correct');
+                } else {
+                    stimulusBox.classList.add('flash-error');
+                }
+
+                currentTrialIndex++;
+                setTimeout(runNextTrial, 140);
+            }
+
+            function finishExperiment() {
+                showScreen(screenResults);
+
+                // Compute Metrics
+                const congruentTrials = sessionResults.filter(r => r.isCongruent && r.isCorrect);
+                const incongruentTrials = sessionResults.filter(r => !r.isCongruent && r.isCorrect);
+
+                const avgCongruentRt = congruentTrials.length > 0 
+                    ? Math.round(congruentTrials.reduce((sum, t) => sum + t.reactionTime, 0) / congruentTrials.length)
+                    : 0;
+
+                const avgIncongruentRt = incongruentTrials.length > 0 
+                    ? Math.round(incongruentTrials.reduce((sum, t) => sum + t.reactionTime, 0) / incongruentTrials.length)
+                    : 0;
+
+                const interferenceCost = avgIncongruentRt - avgCongruentRt;
+                const totalCorrect = sessionResults.filter(r => r.isCorrect).length;
+                const overallAccuracy = Math.round((totalCorrect / sessionResults.length) * 100);
+
+                resInterference.textContent = (interferenceCost >= 0 ? '+' : '') + interferenceCost + ' ms';
+                resInterferenceInline.textContent = (interferenceCost >= 0 ? '+' : '') + interferenceCost + ' ms';
+                resCongruentRt.textContent = avgCongruentRt + ' ms';
+                resIncongruentRt.textContent = avgIncongruentRt + ' ms';
+                resAccuracy.textContent = overallAccuracy + '%';
+                resCorrectCount.textContent = totalCorrect + ' / ' + sessionResults.length + ' correct';
+
+                drawResultsChart(avgCongruentRt, avgIncongruentRt, sessionResults);
+            }
+
+            function drawResultsChart(congruentMean, incongruentMean, results) {
+                const canvas = document.getElementById('stroop-chart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.clearRect(0, 0, w, h);
+
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const textPrimary = isDark ? '#F8F7F2' : '#1A1A1A';
+                const textSecondary = isDark ? '#B0B0B0' : '#4A4A4A';
+                const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+
+                // Draw Bar comparison on Left (width: 240px)
+                const maxRt = Math.max(congruentMean, incongruentMean, 800) * 1.25;
+
+                ctx.font = 'bold 11px JetBrains Mono, monospace';
+                ctx.fillStyle = textSecondary;
+                ctx.fillText('AGGREGATE LATENCY', 20, 20);
+
+                // Congruent Bar
+                const barWidth = 65;
+                const congBarH = (congruentMean / maxRt) * 130;
+                const congX = 30;
+                const congY = 175 - congBarH;
+
+                ctx.fillStyle = '#10b981';
+                ctx.fillRect(congX, congY, barWidth, congBarH);
+                ctx.fillStyle = textPrimary;
+                ctx.fillText(congruentMean + 'ms', congX + 12, congY - 8);
+                ctx.fillStyle = textSecondary;
+                ctx.fillText('CONGRUENT', congX + 2, 195);
+
+                // Incongruent Bar
+                const incongBarH = (incongruentMean / maxRt) * 130;
+                const incongX = 125;
+                const incongY = 175 - incongBarH;
+
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(incongX, incongY, barWidth, incongBarH);
+                ctx.fillStyle = textPrimary;
+                ctx.fillText(incongruentMean + 'ms', incongX + 12, incongY - 8);
+                ctx.fillStyle = textSecondary;
+                ctx.fillText('INCONGRUENT', incongX, 195);
+
+                // Divider line
+                ctx.strokeStyle = gridColor;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(225, 15);
+                ctx.lineTo(225, 205);
+                ctx.stroke();
+
+                // Trial-by-Trial Scatter Plot on Right (width: 440px)
+                const plotX = 260;
+                const plotY = 35;
+                const plotW = w - plotX - 30;
+                const plotH = 140;
+
+                ctx.fillStyle = textSecondary;
+                ctx.fillText('TRIAL-BY-TRIAL REACTION TIME SEQUENCE', plotX, 20);
+
+                // Horizontal grid lines
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = gridColor;
+                for (let r = 200; r <= maxRt; r += 200) {
+                    const lineY = plotY + plotH - (r / maxRt) * plotH;
+                    ctx.beginPath();
+                    ctx.moveTo(plotX, lineY);
+                    ctx.lineTo(plotX + plotW, lineY);
+                    ctx.stroke();
+                    ctx.fillStyle = textSecondary;
+                    ctx.font = '9px JetBrains Mono, monospace';
+                    ctx.fillText(r + 'ms', plotX + plotW + 4, lineY + 3);
+                }
+
+                // Plot dots
+                if (results.length > 1) {
+                    const step = plotW / (results.length - 1);
+
+                    // Connect line
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'rgba(76, 175, 80, 0.4)';
+                    ctx.lineWidth = 1.5;
+                    results.forEach((res, i) => {
+                        const px = plotX + i * step;
+                        const py = plotY + plotH - (res.reactionTime / maxRt) * plotH;
+                        if (i === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    });
+                    ctx.stroke();
+
+                    // Points
+                    results.forEach((res, i) => {
+                        const px = plotX + i * step;
+                        const py = plotY + plotH - (res.reactionTime / maxRt) * plotH;
+
+                        ctx.beginPath();
+                        ctx.arc(px, py, res.isCorrect ? 4 : 6, 0, Math.PI * 2);
+                        ctx.fillStyle = res.isCorrect 
+                            ? (res.isCongruent ? '#10b981' : '#f59e0b') 
+                            : '#ef4444';
+                        ctx.fill();
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    });
+                }
+            }
+
+            function exportCsv() {
+                if (sessionResults.length === 0) return;
+                let csv = "Trial,Word,InkColor,IsCongruent,UserResponse,IsCorrect,ReactionTimeMs\n";
+                sessionResults.forEach(r => {
+                    csv += `${r.trialNum},${r.word},${r.inkColor},${r.isCongruent},${r.selectedColor},${r.isCorrect},${r.reactionTime}\n`;
+                });
+
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Stroop_Experiment_Data_${Date.now()}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Event Listeners
+            btnStart.addEventListener('click', startCountdown);
+            btnRestart.addEventListener('click', () => {
+                showScreen(screenIntro);
+            });
+            btnDownloadCsv.addEventListener('click', exportCsv);
+
+            // Button clicks
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const color = btn.getAttribute('data-color');
+                    handleAnswer(color);
+                });
+            });
+
+            // Keyboard input
+            window.addEventListener('keydown', (e) => {
+                if (!isAwaitingInput) return;
+                const key = e.key.toUpperCase();
+
+                if (key === 'R' || key === '1') {
+                    e.preventDefault();
+                    handleAnswer('RED');
+                } else if (key === 'G' || key === '2') {
+                    e.preventDefault();
+                    handleAnswer('GREEN');
+                } else if (key === 'B' || key === '3') {
+                    e.preventDefault();
+                    handleAnswer('BLUE');
+                } else if (key === 'Y' || key === '4') {
+                    e.preventDefault();
+                    handleAnswer('YELLOW');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

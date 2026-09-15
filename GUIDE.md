@@ -14,7 +14,7 @@ git push origin main
 ```
 
 ### Step 2: Configure GitHub Pages Settings (One-Time Setup)
-1. Go to your repository on GitHub (`https://github.com/jaltom2105/<your-repo-name>`).
+1. Go to your repository on GitHub (`https://github.com/jaltom2105/Personal_Website_V2`).
 2. Click **Settings** at the top.
 3. In the left sidebar, click **Pages**.
 4. Under **Build and deployment > Source**, choose **GitHub Actions** from the dropdown.

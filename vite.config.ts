@@ -15,6 +15,8 @@ export default defineConfig(() => {
           'exp-circuit-hopper': path.resolve(__dirname, 'exp-circuit-hopper.html'),
           'exp-red-button': path.resolve(__dirname, 'exp-red-button.html'),
           'exp-photo-booth': path.resolve(__dirname, 'exp-photo-booth.html'),
+          'exp-stroop-test': path.resolve(__dirname, 'exp-stroop-test.html'),
+          'exp-neural-boundary': path.resolve(__dirname, 'exp-neural-boundary.html'),
           'project-unity-ml': path.resolve(__dirname, 'project-unity-ml.html'),
           'project-ai-portfolio': path.resolve(__dirname, 'project-ai-portfolio.html'),
         },
