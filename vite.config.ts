@@ -2,8 +2,9 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
+  const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
   return {
-    base: './',
+    base: process.env.VITE_BASE_PATH || (isGitHubActions ? '/Personal_Website_V2/' : './'),
     build: {
       rollupOptions: {
         input: {
