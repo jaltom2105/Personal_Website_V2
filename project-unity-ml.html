@@ -35,18 +35,22 @@
     <main>
         <section class="reveal">
             <div class="project-header">
-                <p class="tagline">AI & Game Development</p>
+                <p class="tagline">Reinforcement Learning & Autonomous Agents</p>
                 <h1 style="font-size: clamp(2rem, 8vw, 4rem);">Unity ML Agents</h1>
             </div>
 
             <div class="project-meta">
                 <div class="project-meta-item">
-                    <p class="info-label">Keywords</p>
-                    <p>Reinforcement Learning, Unity Engine (C#), Python, PyTorch</p>
+                    <p class="info-label">Core Algorithms</p>
+                    <p>PPO (Proximal Policy Optimization), POCA</p>
+                </div>
+                <div class="project-meta-item">
+                    <p class="info-label">Tech Stack</p>
+                    <p>Unity 6.4 (6000.4.3f1), Python 3.10.11, PyTorch Nightly, CUDA 12.8, RTX 5070</p>
                 </div>
                 <div class="project-meta-item">
                     <p class="info-label">Status</p>
-                    <p>Phase 3: Deep Dive (In Progress)</p>
+                    <p>Phase 3: Deep Dive Complete &rarr; Phase 4: Custom Agent Design</p>
                 </div>
                 <div class="project-meta-item">
                     <p class="info-label">Source</p>
@@ -56,55 +60,197 @@
 
             <div class="project-content">
                 <div>
-                    <h3 style="margin-bottom: 1rem;">Project Origin</h3>
-                    <p style="margin-bottom: 1.5rem;">
-                        This project was inspired by watching YouTube videos of machine learning models learning to do complex tasks, like playing soccer or "Red Light, Green Light." I wanted to figure out how to replicate those results myself to get a better understanding of how machine learning actually works.
+                    <h3 style="margin-bottom: 1rem;">Project Origin & Inspiration</h3>
+                    <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                        This project was inspired by observing machine learning models learn complex tasks like playing soccer or "Red Light, Green Light" in virtual environments. Driven by a desire to understand how reinforcement learning functions from the ground up, I used Unity's Machine Learning Agents Toolkit (ML-Agents) to first master established baseline environments and then advance to designing, training, and benchmarking custom neural agents from scratch.
                     </p>
-                    <p style="margin-bottom: 1.5rem;">
-                        I found out that Unity has its own ML-Agents toolkit, so I'm using it to start with their examples and eventually move on to designing and training my own custom agents from scratch.
-                    </p>
-                    
-                    <h3 style="margin-bottom: 1rem;">The Tech Stack</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; font-size: 0.85rem;">
-                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
-                            <strong>Simulation:</strong> Unity 2022.3 LTS
+
+                    <h3 style="margin-bottom: 1rem;">Project Goals</h3>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 2rem; font-size: 0.9rem; line-height: 1.7;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Understand RL in Practice:</strong> Master the mechanics of observations, policies, actions, and value estimation.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>GPU-Accelerated Training on Modern Hardware:</strong> Configure an end-to-end pipeline running PyTorch with CUDA 12.8 acceleration on an NVIDIA GeForce RTX 5070 (Blackwell architecture).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Empirical Controlled Experiments:</strong> Test core hypotheses around neural network capacity, reward scaling ratios, and anti-reward hacking.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Custom Agent Design (Phase 4):</strong> Build and train a custom physics-driven ragdoll golfer learning to swing a club and hit a golf ball into a cup.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Rigorous Devlog Documentation:</strong> Maintain replicable logs, configurations, and TensorBoard telemetry.</li>
+                    </ul>
+
+                    <h3 style="margin-bottom: 1rem;">Environments & Agents Explored</h3>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2rem;">
+                        <!-- 3DBall -->
+                        <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                                <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0;">
+                                    <i data-lucide="disc" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                                    1. 3DBall — Dynamic Balancing Task
+                                </h4>
+                                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: green; font-weight: bold;">PERFECT SCORE (100.000)</span>
+                            </div>
+                            <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                                12 agents training in parallel tilting platforms to keep a ball balanced on top. Demonstrates the core training loop with 8 continuous observations (ball position, ball velocity, platform rotation) and 2 continuous tilt actions.
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; border-top: 1px dashed rgba(var(--primary-color-rgb), 0.3); padding-top: 0.5rem; color: var(--text-secondary);">
+                                <strong>Benchmark:</strong> Progressed from random failure (reward 1.206 at step 12k) to rapid improvement (49.964 at step 84k) to a perfect 100.000 score by step 120k (~2 minutes of RTX 5070 GPU training).
+                            </div>
                         </div>
-                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
-                            <strong>Training Backend:</strong> Python 3.10 & PyTorch
+
+                        <!-- Crawler -->
+                        <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                                <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0;">
+                                    <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                                    2. Crawler — Complex Multi-Joint Locomotion
+                                </h4>
+                                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); font-weight: bold;">HIGH-DIMENSIONAL CONTROL</span>
+                            </div>
+                            <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                                A spider-like creature coordinating 20 continuous motor actions across 4 multi-segmented legs. Introduced key architectural innovations: local reference frames via an <code>OrientationCube</code>, raycasts measuring height, and joint-strength outputs.
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; border-top: 1px dashed rgba(var(--primary-color-rgb), 0.3); padding-top: 0.5rem; color: var(--text-secondary);">
+                                <strong>Reward Gating:</strong> Employs multiplicative reward gating where <code>matchSpeedReward &times; lookAtTargetReward</code> ensures the agent only receives rewards when running fast AND facing the target simultaneously.
+                            </div>
                         </div>
-                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
-                            <strong>Hardware:</strong> NVIDIA RTX 5070 (CUDA 12.4)
-                        </div>
-                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
-                            <strong>Visualization:</strong> TensorBoard
+
+                        <!-- SoccerTwos -->
+                        <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                                <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0;">
+                                    <i data-lucide="users" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                                    3. SoccerTwos — Multi-Agent Adversarial Competition
+                                </h4>
+                                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); font-weight: bold;">POCA ALGORITHM</span>
+                            </div>
+                            <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                                Two teams of two competing in an automatically scaling difficulty curve. Uses the POCA (Multi-Agent Posthumous Credit Assignment) algorithm tracked via ELO ratings rather than static reward values.
+                            </p>
                         </div>
                     </div>
 
-                    <h3 style="margin-bottom: 1rem;">Progress Milestones</h3>
+                    <h3 style="margin-bottom: 1rem;">Phase 3 Controlled Experiments</h3>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">
+                        In Phase 3, I conducted three controlled experiments with isolated YAML configurations and C# agent code modifications to test reinforcement learning theory with empirical TensorBoard data:
+                    </p>
+
+                    <!-- Experiment 1 -->
+                    <div style="border: var(--border-width) solid var(--primary-color); padding: 1.25rem; margin-bottom: 1.25rem;">
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); margin-bottom: 0.5rem;">EXPERIMENT 01 // ARCHITECTURAL CAPACITY</div>
+                        <h4 style="margin-bottom: 0.5rem;">Network Size vs. Performance (64 vs. 128 vs. 256 Hidden Units)</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            <strong>Hypothesis:</strong> Larger neural networks learn faster due to greater representational capacity.<br>
+                            <strong>Result:</strong> All three networks (64, 128, and 256 hidden units) reached the perfect score of 100.000 at <em>exactly step 132,000</em>. Their TensorBoard reward, episode length, policy loss, and value loss curves were indistinguishable.<br>
+                            <strong>Finding:</strong> For low-dimensional tasks (8 observations, 2 actions), network capacity is not the bottleneck; even 64 units provides more than enough capacity.
+                        </p>
+                    </div>
+
+                    <!-- Experiment 2 -->
+                    <div style="border: var(--border-width) solid var(--primary-color); padding: 1.25rem; margin-bottom: 1.25rem;">
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); margin-bottom: 0.5rem;">EXPERIMENT 02 // REWARD DYNAMICS</div>
+                        <h4 style="margin-bottom: 0.5rem;">Reward Scaling & Penalty Ratios (10:1 vs. 1:1)</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            <strong>Hypothesis:</strong> Reducing the ratio between penalty and survival reward destabilizes learning by weakening the failure signal.<br>
+                            <strong>Result:</strong> Changing survival reward from +0.1 to +1.0 (shifting penalty ratio from 10:1 down to 1:1) caused severe learning instability—reward climbed to 95.64 at step 120k, regressed down to 79.36 at step 132k, and only stabilized at step 156k.<br>
+                            <strong>Finding:</strong> The ratio between reward and penalty values is just as important as absolute magnitude. Strong failure signals prevent catastrophic policy oscillation.
+                        </p>
+                    </div>
+
+                    <!-- Experiment 3 -->
+                    <div style="border: var(--border-width) solid var(--primary-color); padding: 1.25rem; margin-bottom: 2rem;">
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); margin-bottom: 0.5rem;">EXPERIMENT 03 // BEHAVIORAL EXPLOITS</div>
+                        <h4 style="margin-bottom: 0.5rem;">Reward Hacking (Removal of Penalty & Episode Resets)</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            <strong>Hypothesis:</strong> Removing penalties and resets causes agents to exploit unintended reward pathways.<br>
+                            <strong>Result:</strong> When failure was given identical +0.1 reward without resetting the episode, the agent reached a "perfect" 100 reward immediately by doing <em>absolutely nothing</em>. Balls dropped to the floor while platforms remained motionless.<br>
+                            <strong>Finding:</strong> <em>"An agent does not learn what you want it to learn. It learns whatever maximizes the number you give it."</em> Confirmed the vital need for multi-layered, unhackable reward shaping in custom agents.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Hardware & Engineering Solutions</h3>
+                    <div style="border-left: 3px solid var(--primary-color); padding-left: 1.25rem; margin-bottom: 2rem; font-size: 0.85rem; line-height: 1.6;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Key Engineering Challenges Solved:</strong></p>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                            &bull; <strong>RTX 5070 Blackwell (sm_120) GPU Acceleration:</strong> Stable PyTorch lacks sm_120 support; configured PyTorch nightly (2.12.0.dev) with CUDA 12.8 to unlock full GPU-accelerated training.
+                        </p>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                            &bull; <strong>Dependency Conflict Resolution:</strong> Handled ML-Agents installer attempts to downgrade PyTorch to CPU 2.8.0 by establishing automated reinstall and verification pipelines.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            &bull; <strong>Engine Upgrade:</strong> Upgraded from Unity 2022.3 LTS to Unity 6.4 (6000.4.3f1) with <code>com.unity.ml-agents</code> 4.0.3, eliminating import freezing and simulation stalling.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Full Tech Stack & Environment</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; font-size: 0.85rem;">
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Simulation:</strong> Unity 6.4 (6000.4.3f1)
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>ML-Agents:</strong> v0.30+ / Package 4.0.3
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Orchestration:</strong> Python 3.10.11 (64-bit venv)
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Deep Learning:</strong> PyTorch Nightly (CUDA 12.8)
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Hardware:</strong> NVIDIA GeForce RTX 5070
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Telemetry:</strong> TensorBoard Real-Time Monitoring
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Project Roadmap</h3>
                     <div style="font-family: var(--font-mono); font-size: 0.8rem; border: var(--border-width) solid var(--primary-color); margin-bottom: 2rem;">
                         <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid var(--primary-color); background: var(--primary-color); color: var(--secondary-color);">
-                            <span>PHASE</span><span>STATUS</span>
+                            <span>PHASE</span><span>OBJECTIVE</span><span>STATUS</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
-                            <span>Infrastructure & Setup</span><span style="color: green;">COMPLETE</span>
+                            <span>Phase 0</span><span>Project Infrastructure & GitHub Setup</span><span style="color: green;">COMPLETE</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
-                            <span>Environment Config</span><span style="color: green;">COMPLETE</span>
+                            <span>Phase 1</span><span>Environment Installation & GPU Toolchain</span><span style="color: green;">COMPLETE</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                            <span>Phase 2</span><span>Running & Benchmarking Example Agents</span><span style="color: green;">COMPLETE</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                            <span>Phase 3</span><span>Deep Dive into PPO, Rewards, & Experiments</span><span style="color: green;">COMPLETE</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                            <span>Phase 4</span><span>Custom Agent: Physics Ragdoll Golfer</span><span style="color: var(--primary-color); font-weight: bold;">IN PROGRESS</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 0.5rem;">
-                            <span>Deep Dive into PPO/Rewards</span><span style="color: var(--primary-color);">IN_PROGRESS</span>
+                            <span>Phase 5</span><span>Polish, Writeup, and Presentation</span><span style="color: var(--text-secondary);">PLANNED</span>
                         </div>
                     </div>
                 </div>
                 
                 <aside>
-                    <div style="background-color: var(--accent-color); padding: 2rem; border: var(--border-width) solid var(--primary-color);">
-                        <h4 style="margin-bottom: 1rem;">Project Goals</h4>
-                        <ul style="font-size: 0.8rem; padding-left: 1rem;">
-                            <li style="margin-bottom: 0.5rem;">Master GPU-accelerated RL training.</li>
-                            <li style="margin-bottom: 0.5rem;">Implement sac (Soft Actor-Critic) on custom agents.</li>
-                            <li style="margin-bottom: 0.5rem;">Document emergent strategies for future replication.</li>
-                        </ul>
+                    <div style="background-color: var(--accent-color); padding: 2rem; border: var(--border-width) solid var(--primary-color); position: sticky; top: 2rem;">
+                        <h4 style="margin-bottom: 1rem;">Project Summary</h4>
+                        <div style="padding: 0.5rem; background-color: var(--primary-color); color: var(--secondary-color); text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 1.25rem;">RESEARCH REPO</div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Hardware Acceleration</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: var(--primary-color);">RTX 5070 (CUDA 12.8)</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">NVIDIA Blackwell GPU accelerated training using custom PyTorch Nightly build.</p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Controlled Experiments</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: var(--primary-color);">3 Formal Trials</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Network size capacity, reward scaling ratio stability, and zero-penalty reward hacking.</p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Next Custom Agent</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: var(--primary-color);">Ragdoll Golfer</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Learning to coordinate club swing torque and hit a golf ball into a target hole.</p>
+                        </div>
+
+                        <a href="https://github.com/jaltom2105/unity-ml-agents-project" target="_blank" class="btn" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; font-size: 0.8rem; padding: 0.65rem 1rem;">
+                            <i data-lucide="github" style="width: 14px; height: 14px;"></i> View Repository
+                        </a>
                     </div>
                 </aside>
             </div>

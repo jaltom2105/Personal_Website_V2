@@ -35,22 +35,22 @@
     <main>
         <section class="reveal">
             <div class="project-header">
-                <p class="tagline">Interactive Systems & AI Design</p>
+                <p class="tagline">Symbiotic Systems & Interactive Web Architecture</p>
                 <h1 style="font-size: clamp(2rem, 8vw, 4rem);">AI-Assisted Portfolio Development</h1>
             </div>
 
             <div class="project-meta">
                 <div class="project-meta-item">
                     <p class="info-label">Role</p>
-                    <p>Lead Developer & Prompt Engineer</p>
+                    <p>Lead Architect & Prompt Engineer</p>
                 </div>
                 <div class="project-meta-item">
                     <p class="info-label">Period</p>
-                    <p>Spring 2024</p>
+                    <p>2024 – Present (Active Deployment)</p>
                 </div>
                 <div class="project-meta-item">
-                    <p class="info-label">Platform</p>
-                    <p>Google AI Studio Build</p>
+                    <p class="info-label">Platform & Tooling</p>
+                    <p>Google AI Studio Build, Vite, GitHub Actions</p>
                 </div>
                 <div class="project-meta-item">
                     <p class="info-label">Source</p>
@@ -58,47 +58,137 @@
                 </div>
             </div>
 
-
-
             <div class="project-content">
                 <div>
-                    <h3 style="margin-bottom: 1rem;">The Process</h3>
-                    <p style="margin-bottom: 1.5rem;">
-                        This website started as a way to practice building a professional portfolio using AI as a coding partner. Instead of writing every line of code myself, I used Google AI Studio to describe the layout, design, and features I wanted, then refined the results through iteration.
+                    <h3 style="margin-bottom: 1rem;">Project Mission & Architectural Thesis</h3>
+                    <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                        This portfolio serves as both my personal digital identity and an active laboratory for <strong>Human-AI Symbiotic Software Engineering</strong>. Rather than using conventional boilerplate templates, this application was built through conversational context orchestration, architectural prompt engineering, and rigorous iterative code reviews with AI coding agents in Google AI Studio Build.
                     </p>
-                    <p style="margin-bottom: 1.5rem;">
-                        Since it started, the project has grown from a simple static site into a more interactive portfolio with a dedicated "lab" for experiments and a sitewide dark mode system.
+                    <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                        The objective was to test the practical boundary of natural-language driven development: creating a high-performance, accessible, and mathematically disciplined website spanning <strong>3D vector graphics, real-time computer vision, empirical cognitive psychology testing, and custom Constructivist design systems</strong> without accumulating technical debt or relying on generic "AI slop" visual clichés.
                     </p>
                     
-                    <h3 style="margin-bottom: 1rem;">Recent Additions</h3>
-                    <ul style="margin-left: 1.5rem; margin-bottom: 2rem;">
-                        <li style="margin-bottom: 0.8rem;">
-                            <strong>The Laboratory Concept:</strong> Implemented a modular "Experiments" grid that acts as a sandbox for high-interaction prototypes. 
-                        </li>
-                        <li style="margin-bottom: 0.8rem;">
-                            <strong>Interactive Simulation:</strong> Developed <em>Sky Hopper</em>, a custom-built arcade experience using Canvas API designed through purely descriptive prompting.
-                        </li>
-                        <li style="margin-bottom: 0.8rem;">
-                            <strong>Reactive Design Logic:</strong> Engineered a site-wide Dark/Light mode system with persistent state, integrated into a unified CSS variable architecture.
-                        </li>
-                        <li style="margin-bottom: 0.8rem;">
-                            <strong>Human-Centric Navigation:</strong> Refined the information architecture, introducing hierarchical dropdowns and optimized user flows (e.g., the Resume and Lab transitions).
-                        </li>
-                    </ul>
+                    <h3 style="margin-bottom: 1rem;">Key Subsystems & Engineering Highlights</h3>
+                    
+                    <!-- Subsystem 1: Globe -->
+                    <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color); margin-bottom: 1.25rem;">
+                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="globe" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                            3D Interactive TopoJSON Orthographic Globe
+                        </h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            Engineered a canvas-rendered 3D globe powered by D3.js v7 and TopoJSON vector geometries (110m resolution). Features:
+                        </p>
+                        <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 1.25rem; line-height: 1.5;">
+                            <li>Quaternionic rotation kinetics with smooth inertia dragging and momentum decay.</li>
+                            <li>Geodetic distance calculation for back-face culling (only markers on the visible hemisphere render).</li>
+                            <li>15 pinned geographic coordinates spanning Australia, Japan, Europe, the Caribbean, and North America.</li>
+                            <li>Interactive hover hit-testing displaying high-contrast tooltip callouts and animated radar pulses.</li>
+                        </ul>
+                    </div>
 
-                    <h3 style="margin-bottom: 1rem;">Adversarial UI Testing</h3>
-                    <p style="margin-bottom: 1.5rem;">
-                        One of the most unique aspects of this project is the exploration of "Forbidden UI", the <em>Don't Click Me</em> experiment. This module tests human curiosity through cautionary visual cues, utilizing immediate browser-level termination commands as a high-stakes interaction model.
+                    <!-- Subsystem 2: Vision Lab -->
+                    <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color); margin-bottom: 1.25rem;">
+                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="camera" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                            WebRTC Computer Vision Laboratory (Photo Booth)
+                        </h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            An in-browser hardware-accelerated video processing pipeline built on HTML5 Canvas API and WebRTC media streams:
+                        </p>
+                        <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 1.25rem; line-height: 1.5;">
+                            <li>10 real-time math filter shaders (Andy Warhol 4-quadrant RGB offset, infrared thermal heat mapping, non-linear fisheye coordinate deformation, and vintage CRT scanlines).</li>
+                            <li>3-second animated countdown sequencer with visual screen-flash snapshot shutter.</li>
+                            <li>Client-side reel buffer enabling instantaneous high-resolution PNG export with zero server upload.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Subsystem 3: Cognitive Lab -->
+                    <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color); margin-bottom: 1.25rem;">
+                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="brain" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                            Empirical Cognitive Psychology Battery (The Stroop Effect)
+                        </h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            A laboratory-grade neuropsychological assessment quantifying executive cognitive inhibition and attention conflict:
+                        </p>
+                        <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 1.25rem; line-height: 1.5;">
+                            <li>High-resolution millisecond latency timers measuring response reaction times on congruent vs. incongruent stimuli.</li>
+                            <li>Automated calculation of individual Stroop interference penalties and error distributions.</li>
+                            <li>Comparative analysis juxtaposing biological cognitive heuristics with adversarial vulnerabilities in artificial neural classifiers.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Subsystem 4: Design System -->
+                    <div style="border: 1px solid var(--primary-color); padding: 1.25rem; background: var(--accent-color); margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="palette" style="width: 18px; height: 18px; color: var(--primary-color);"></i>
+                            Constructivist Design System & Dual-Theme Architecture
+                        </h4>
+                        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                            Architectural design inspired by early 20th-century Constructivism, balancing visual order and functional hierarchy:
+                        </p>
+                        <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 1.25rem; line-height: 1.5;">
+                            <li>Dynamic CSS variable token architecture with instant toggle between high-contrast Dark and Light palettes.</li>
+                            <li>Robust client storage fallbacks preventing state exceptions in sandboxed iframes.</li>
+                            <li>Progressive enhancement scroll-reveal observers and interactive hero particle mesh visualizers.</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Human-in-the-Loop Methodology</h3>
+                    <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                        This project proves that the most effective AI-assisted engineering relies on <strong>strict architectural constraints</strong>. Every prompt was carefully scoped to define mathematical ratios, WCAG AA color contrasts, defensive programming patterns (such as iframe storage guards and WebRTC permission fallbacks), and modular separation of concerns.
                     </p>
+                    <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                        The code is version-controlled via GitHub, bundled with Vite multi-page Rollup orchestration, and automatically deployed to GitHub Pages through GitHub Actions CI/CD workflows.
+                    </p>
+
+                    <h3 style="margin-bottom: 1rem;">Production Tech Stack</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; font-size: 0.85rem;">
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Core Runtime:</strong> TypeScript & HTML5 Canvas
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Data Visualization:</strong> D3.js v7 & TopoJSON v3
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Styling:</strong> Constructivist CSS Variables
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Build & Bundling:</strong> Vite 6 & Rollup MPA
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>CI/CD Workflow:</strong> GitHub Actions
+                        </div>
+                        <div style="border: 1px solid var(--primary-color); padding: 1rem;">
+                            <strong>Deployment Target:</strong> GitHub Pages & Cloud Run
+                        </div>
+                    </div>
                 </div>
                 
                 <aside>
-                    <div style="background-color: var(--accent-color); padding: 2rem; border: var(--border-width) solid var(--primary-color);">
-                        <h4 style="margin-bottom: 1rem;">Development Insights</h4>
-                        <div style="padding: 0.5rem; background-color: var(--primary-color); color: var(--secondary-color); text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 1rem;">LIVE PROJECT</div>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
-                            This portfolio is built using a "Human-in-the-Loop" methodology. Every component was generated through natural language context and verified by my specific design requirements.
-                        </p>
+                    <div style="background-color: var(--accent-color); padding: 2rem; border: var(--border-width) solid var(--primary-color); position: sticky; top: 2rem;">
+                        <h4 style="margin-bottom: 1rem;">Project Metrics</h4>
+                        <div style="padding: 0.5rem; background-color: var(--primary-color); color: var(--secondary-color); text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 1.25rem;">LIVE PRODUCTION</div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Laboratory Prototypes</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: var(--primary-color);">4 Active Experiments</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Curiosity testing, arcade physics, real-time vision lab, and Stroop interference cognitive battery.</p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Privacy & Performance</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: var(--primary-color);">100% Client-Side</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Zero external server telemetry; video frames and reaction trials process entirely in local browser memory.</p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Build Infrastructure</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: var(--primary-color);">Automated CI/CD</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Git push triggers automated multi-page bundling, type checking, and artifact publishing.</p>
+                        </div>
+
                         <a href="https://github.com/jaltom2105/Personal_Website_V2" target="_blank" class="btn" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; font-size: 0.8rem; padding: 0.65rem 1rem;">
                             <i data-lucide="github" style="width: 14px; height: 14px;"></i> View Repository
                         </a>

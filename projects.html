@@ -44,28 +44,54 @@
 
             <div class="section-grid">
                 <!-- Project 1 -->
-                <div class="project-card" onclick="window.location.href='project-unity-ml.html'" style="cursor: pointer;">
+                <div class="project-card" onclick="window.location.href='project-unity-ml.html'" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <p class="info-label">AI & Game Development</p>
-                        <h3>Unity ML Agents</h3>
-                        <p>Exploring machine learning within the Unity engine using ML-Agents to create intelligent behaviors in game environments.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <p class="info-label" style="margin-bottom: 0;">Reinforcement Learning & Simulation</p>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); border: 1px solid var(--primary-color); padding: 0.15rem 0.4rem;">ACTIVE_RESEARCH</span>
+                        </div>
+                        <h3 style="margin-bottom: 0.75rem;">Unity ML Agents</h3>
+                        <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                            GPU-accelerated reinforcement learning using Unity 6.4 and PyTorch nightly with CUDA 12.8 on an NVIDIA RTX 5070 (Blackwell). Explores PPO and POCA across 3DBall, Crawler, and SoccerTwos, with controlled experiments in neural network sizing, reward penalty ratios, and reward hacking—culminating in a custom physics ragdoll golfer agent.
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">PPO & POCA</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">RTX 5070 & CUDA 12.8</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">Reward Shaping Experiments</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">Ragdoll Golfer Agent</span>
+                        </div>
                     </div>
-                    <div style="margin-top: 2rem; display: flex; gap: 0.75rem; align-items: center;">
-                        <span class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View Project</span>
-                        <a href="https://github.com/jaltom2105/unity-ml-agents-project" target="_blank" onclick="event.stopPropagation();" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-decoration: underline;">GitHub</a>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; border-top: 1px solid rgba(var(--primary-color-rgb), 0.2); padding-top: 1rem;">
+                        <span class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View Full Case Study</span>
+                        <a href="https://github.com/jaltom2105/unity-ml-agents-project" target="_blank" onclick="event.stopPropagation();" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="github" style="width: 14px; height: 14px;"></i> GitHub
+                        </a>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card" onclick="window.location.href='project-ai-portfolio.html'" style="cursor: pointer;">
+                <div class="project-card" onclick="window.location.href='project-ai-portfolio.html'" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <p class="info-label">AI & Design Interaction</p>
-                        <h3>AI Portfolio Development</h3>
-                        <p>This very website. An experimental case study on building professional digital identities through collaborative natural language development with AI.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <p class="info-label" style="margin-bottom: 0;">Symbiotic AI & Interactive Systems</p>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color); border: 1px solid var(--primary-color); padding: 0.15rem 0.4rem;">LIVE_PRODUCTION</span>
+                        </div>
+                        <h3 style="margin-bottom: 0.75rem;">AI-Assisted Portfolio Development</h3>
+                        <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                            A live production web ecosystem engineered through conversational AI architecture. Features an interactive 3D TopoJSON vector globe (D3.js), hardware-accelerated WebRTC computer vision lab with 10 real-time canvas filter shaders, empirical Stroop neuropsychological battery, and Constructivist dual-palette design system.
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">3D D3.js Globe</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">WebRTC Vision Lab</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">Stroop Battery</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--accent-color); border: 1px solid var(--primary-color); padding: 0.2rem 0.5rem;">GitHub Actions CI/CD</span>
+                        </div>
                     </div>
-                    <div style="margin-top: 2rem; display: flex; gap: 0.75rem; align-items: center;">
-                        <span class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View Project</span>
-                        <a href="https://github.com/jaltom2105/Personal_Website_V2" target="_blank" onclick="event.stopPropagation();" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-decoration: underline;">GitHub Repo</a>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; border-top: 1px solid rgba(var(--primary-color-rgb), 0.2); padding-top: 1rem;">
+                        <span class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View Full Case Study</span>
+                        <a href="https://github.com/jaltom2105/Personal_Website_V2" target="_blank" onclick="event.stopPropagation();" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="github" style="width: 14px; height: 14px;"></i> GitHub
+                        </a>
                     </div>
                 </div>
             </div>
